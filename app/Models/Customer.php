@@ -11,6 +11,7 @@ class Customer extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = 'customer';
+    protected $primaryKey = 'id_customer';
     protected $guarded = ['id_customer', 'created_at', 'updated_at', 'deleted_at'];
     protected $dates = ['deleted_at'];
 }
