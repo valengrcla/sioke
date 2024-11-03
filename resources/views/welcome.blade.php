@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - SIOKE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Lusitana', sans-serif;
             background-image: url('images/okenebckg.png'); /* Update this with the correct path */
             background-size: cover;
             display: flex;
@@ -109,6 +109,10 @@
         .change-password:hover {
             text-decoration: underline;
         }
+        .alert {
+            color: red; /* Mengubah warna teks menjadi merah */
+        }
+
     </style>
 </head>
 <body>
@@ -122,7 +126,12 @@
                 <img src="images/logo.png" alt="Okene Logo"> <!-- Update path if necessary -->
             </div>
         </div>
-        
+        @if(Session::has('error'))
+        <div class="alert alert-danger" role="alert" style="text-align: center">
+            {{Session::get('error')}}
+        </div>
+        @endif
+
         <!-- Login form -->
         <form action="{{ route('login') }}" method="POST">
             @csrf

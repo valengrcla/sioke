@@ -3,42 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;600&display=swap" rel="stylesheet">
     <title>Dashboard - Okene Coffee</title>
-
-    <!-- Tambahkan link ke Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            const salesChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    datasets: [{
-                        label: 'Sales',
-                        data: [10, 15, 12, 8, 17, 10, 18, 22, 19, 24, 21, 25],
-                        backgroundColor: '#FF6F00'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* CSS Dasar */
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Lusitana', sans-serif;
             display: flex;
-            background-color: #f7f8fa;
+            background-color: #FAF3E0;
             margin: 0;
         }
 
@@ -50,7 +24,6 @@
 
         /* Card Styling */
         .card-container {
-            background-color: #FFFFFF;
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
@@ -58,7 +31,7 @@
         }
         .card {
             background-color: #FFF;
-            border: 4px solid #FFC107;
+            border: 4px solid #697565;
             border-radius: 10px;
             padding: 15px;
             color: #333;
@@ -86,7 +59,7 @@
 
         .chart-container, .sales-container {
             background-color: #FFFFFF;
-            border: 7px solid #FFC107;
+            border: 7px solid #697565;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -136,6 +109,7 @@
     <!-- Main Content -->
     <div class="main-content">
         <h1>Dashboard</h1>
+        <h2>{{session('user')->role->nama_role}}</h2>
 
         <!-- Card Container -->
         <div class="card-container">
@@ -180,5 +154,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Tambahkan link ke Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            const salesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [10, 15, 12, 8, 17, 10, 18, 22, 19, 24, 21, 25],
+                        backgroundColor: '#3C3D37'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

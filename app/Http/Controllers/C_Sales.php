@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Detail_sales;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Sales;
 
@@ -16,12 +18,11 @@ class C_Sales extends Controller
 
     public function detail_sales($id_nota)
     {
-        // Mencari data Sales berdasarkan id_sales
         $sales = Sales::findOrFail($id_nota);
-        // $customer = Customer::findOrFail($sales->id_customer);
-        // dd($sales, $customer);
-        // Mengarahkan ke tampilan detail dengan data sales
-        return view("sales.detail", compact('sales'));
+        $detailSales = Detail_sales::join('product', 'detail_sales.id_product', '=', 'product.id_product')
+        ->where('detail_sales.id_nota', $sales->id_nota)->get();
+        // dd($detailSales);
+        return view("sales.detail", compact('sales', 'detailSales'));
     }
 }
  

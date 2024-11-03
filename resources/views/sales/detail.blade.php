@@ -30,19 +30,40 @@
             </tr>
             <tr>
                 <th>Product</th>
-                <td>{{ ($sales->product->nama_product) }}</td>
+                <td>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nama Product</th>
+                                <th>Quantity</th>
+                                <th>Harga</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($detailSales as $detail)
+                                <tr>
+                                    <td>{{ $detail->nama_product }}</td>
+                                    <td>{{ $detail->quantity }}</td>
+                                    <td>{{ number_format($detail->harga, 2, ',', '.') }}</td>
+                                    <td>{{ number_format($detail->subtotal, 2, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </td>
             </tr>
             <tr>
-                <th>Quantity</th>
-                <td>{{ $sales->detail_sales->quantity }}</td>
+                <th>Total Harga</th>
+                <td>{{ number_format($sales->total_harga, 2, ',', '.') }}</td>
             </tr>
             <tr>
-                <th>Harga</th>
-                <td>{{ number_format($sales->detail_sales->harga, 2, ',', '.') }}</td>
+                <th>Pembayaran</th>
+                <td>{{ number_format($sales->total_pembayaran, 2, ',', '.') }}</td>
             </tr>
             <tr>
-                <th>Subtotal</th>
-                <td>{{ number_format($sales->detail_sales->subtotal, 2, ',', '.') }}</td>
+                <th>Kembalian</th>
+                <td>{{ number_format($sales->total_kembali, 2, ',', '.') }}</td>
             </tr>
         </table>
         <a href="{{ route('sales.index') }}" class="btn btn-secondary">Back</a>

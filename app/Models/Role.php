@@ -12,4 +12,7 @@ class Role extends Model
     protected $table = 'role';
     protected $primaryKey = 'id_role';
     protected $guarded = ['id_role'];
+    protected $casts = [
+        'id_role' => 'string',
+    ];
 }

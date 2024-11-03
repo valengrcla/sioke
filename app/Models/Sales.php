@@ -22,10 +22,6 @@ class Sales extends Model
         return $this->belongsTo(Detail_sales::class, 'id_nota', 'id_nota'); 
     }
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class, 'id_product');
-    }
     use HasFactory;
     protected $table = 'sales';
     protected $primaryKey = 'id_nota';

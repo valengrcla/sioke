@@ -3,30 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;600&display=swap" rel="stylesheet">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sales</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            background-color: white;
+            font-family: 'Lusitana', sans-serif;
+            display: flex;
+            background-color: #ECDFCC;
+            margin: 0;
+            overflow-x: hidden;
         }
         .container {
-            max-width: 1000px;
+            margin-left: 280px;
+            padding: 20px;
+            width: calc(100% - 280px);
+            overflow-x: hidden;
         }
         .btn-create {
-            background-color: #FFD43B;
+            background-color: #697565;
             color: white;
             font-weight: bold;
         }
         .btn-create:hover {
-            background-color: #ffc107;
+            background-color: #DEF9C4;
         }
     </style>
 </head>
 <body>
 @include ('layouts.sidebar')
-<div class="container mt-5">
+<style>
+    .mt-n1 {
+        margin-top: -1rem;
+    }
+    /* Tambahkan kelas lain sesuai kebutuhan */
+</style>
+<div class="container mt-n1">
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
         <h1>Sales</h1>
         <button class="btn btn-create"><i class="fas fa-plus"></i> Create Sales</button>
@@ -36,6 +50,13 @@
         <span class="input-group-text"><i class="fas fa-search"></i></span>
         <input type="text" class="form-control" placeholder="Search Sales">
     </div>
+
+    <style>
+        .table thead th {
+            background-color: #697565; /* Ganti dengan warna yang Anda inginkan */
+            color: white;
+        }
+    </style>
 
     <table class="table table-striped">
         <thead>
@@ -58,6 +79,16 @@
                     {{-- <td>{{ $Sales->quantity }}</td> --}}
                     <td>{{ number_format($Sales->total_harga, 2, ',', '.') }}</td>
                     <td>
+                        <style>
+                            .btn-info {
+                                background-color: #677D6A !important; /* Sesuaikan warna sesuai keinginan */
+                                color: white;
+                                border: none;
+                            }
+                            .btn-sm:hover {
+                                background-color: #DEF9C4 !important; /* Warna saat hover */
+                            }
+                        </style>
                         <a href="{{ route('sales.detail', $Sales->id_nota) }}" class="btn btn-info btn-sm">
                             <i class="fas fa-info-circle"></i> Detail
                         </a>
