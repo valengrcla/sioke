@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* CSS Dasar */
         body {
             font-family: 'Lusitana', sans-serif;
             display: flex;
@@ -22,7 +21,6 @@
             width: calc(100% - 280px);
         }
 
-        /* Card Styling */
         .card-container {
             display: flex;
             flex-wrap: wrap;
@@ -50,11 +48,10 @@
             margin: 0;
         }
 
-        /* Chart and Last Sales Containers */
         .row-container {
             display: flex;
-            gap: 20px; /* Jarak antara chart dan last sales */
-            margin-top: 20px; /* Jarak atas */
+            gap: 20px; 
+            margin-top: 20px; 
         }
 
         .chart-container, .sales-container {
@@ -66,13 +63,13 @@
         }
 
         .chart-container {
-            flex: 2; /* Lebar chart lebih besar */
-            max-width: 60%; /* Atur lebar maksimal agar chart lebih kecil */
+            flex: 2; 
+            max-width: 60%; 
         }
 
         .sales-container {
-            flex: 1; /* Lebar sales lebih kecil */
-            max-width: 40%; /* Atur lebar maksimal agar last sales lebih kecil */
+            flex: 1; 
+            max-width: 40%; 
         }
 
         .sales-list {
@@ -103,35 +100,71 @@
     </style>
 </head>
 <body>
-    <!-- Include Sidebar -->
     @include('layouts.sidebar')
+    <div id="navbar" style="position: fixed; top: 0; right: 0; z-index: 1000; width: auto;">
+        @include('navbar')
+    </div>
+    
+    <style>
+        .navbar {
+            padding: 0.3rem 0.5rem;
+            font-size: 1rem; 
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 0.5rem 0.5rem;
+            background-color: #fff; 
+            transition: top 0.3s; 
+        }
+    
+        .navbar-nav .nav-link {
+            padding: 0.2rem 0.5rem;
+        }
 
-    <!-- Main Content -->
+        .navbar img {
+            width: 25px;
+            height: 25px;
+            margin-right: 5px;
+        }
+    </style>
+    
+    <script>
+        let lastScrollTop = 0; 
+        const navbar = document.getElementById('navbar'); 
+    
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
+    
+            if (scrollTop > lastScrollTop) {
+                navbar.style.top = "-60px"; 
+            } else {
+                navbar.style.top = "0"; 
+            }
+            lastScrollTop = scrollTop; 
+        });
+    </script>
+
     <div class="main-content">
         <h1>Dashboard</h1>
         <h2>{{session('user')->role->nama_role}}</h2>
 
-        <!-- Card Container -->
         <div class="card-container">
             <div class="card">
                 <div class="card-title">Jumlah Pendapatan</div>
-                <p>Rp 7.250.000,00</p>
+                <p>Rp {{ number_format($totalPendapatan, 2, ',', '.') }}</p></p>
             </div>
             <div class="card">
                 <div class="card-title">Total Sales</div>
-                <p>75</p>
+                <p>{{ $totalSales }}</p>
             </div>
             <div class="card">
                 <div class="card-title">Total Product</div>
-                <p>10</p>
+                <p>{{ $totalProduct }}</p>
             </div>
             <div class="card">
                 <div class="card-title">Total Customer</div>
-                <p>10</p>
+                <p>{{ $totalCustomer }}</p>
             </div>
         </div>
 
-        <!-- Chart and Last Sales Containers -->
         <div class="row-container">
             <div class="chart-container">
                 <h3>Graphic Sales</h3>
@@ -141,21 +174,17 @@
             <div class="sales-container">
                 <h3>Last Sales</h3>
                 <ul class="sales-list">
-                    <li class="sale-item">
-                        <img src="images/profile1.jpg" alt="Emo">
-                        <p>Emo<br><span>emo@gmail.com</span><br>Rp 20.000,00</p>
-                    </li>
-                    <li class="sale-item">
-                        <img src="images/profile2.jpg" alt="Eric Chou">
-                        <p>Eric Chou<br><span>ericchou@gmail.com</span><br>Rp 42.000,00</p>
-                    </li>
-                    <!-- Tambahkan penjualan terakhir lainnya -->
+                    @foreach($lastSales as $sales)
+                        <li class="sale-item">
+                            <img src="{{ asset('images/customer/' . $sales->customer->customer_img) }}" alt="{{ $sales->customer->nama_customer }}" onerror="this.src='default-profile.png'">
+                            <p>{{ $sales->customer->nama_customer }}<br><span>{{ $sales->customer->email_customer }}</span><br>Rp {{ number_format($sales->total_harga, 2, ',', '.') }}</p>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- Tambahkan link ke Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -166,7 +195,7 @@
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
                         label: 'Sales',
-                        data: [10, 15, 12, 8, 17, 10, 18, 22, 19, 24, 21, 25],
+                        data: @json($monthlySales),
                         backgroundColor: '#3C3D37'
                     }]
                 },

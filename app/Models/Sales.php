@@ -29,4 +29,10 @@ class Sales extends Model
     protected $casts = [
         'id_nota' => 'string',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

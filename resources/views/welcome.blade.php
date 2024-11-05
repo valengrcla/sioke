@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - SIOKE</title>
     <link href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: 'Lusitana', sans-serif;
-            background-image: url('images/okenebckg.png'); /* Update this with the correct path */
+            background-image: url('images/okenebckg.png'); 
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -17,20 +18,18 @@
             margin: 0;
             color: #333;
         }
-        /* Overlay effect */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.2); /* Darker overlay */
+            background-color: rgba(0, 0, 0, 0.2); 
             z-index: 0;
         }
-        /* Container styling */
         .login-container {
             position: relative;
-            background: rgba(255, 255, 255, 0.9);
+            background: #FFF7E5;
             padding: 30px;
             border-radius: 10px;
             width: 320px;
@@ -38,29 +37,26 @@
             z-index: 1;
             text-align: center;
         }
-        /* Kontainer untuk logo dan judul */
         .logo-title-container {
             display: flex;
-            align-items: center; /* Vertically center the logo and text */
-            justify-content: space-between; /* Distribute space between logo and text */
-            background-color: #FFC107; /* Yellow background */
-            padding: 15px; /* Add some padding */
-            border-radius: 5px; /* Slightly rounded corners */
-            margin-bottom: 25px; /* Space below the container */
+            align-items: center; 
+            justify-content: space-between; 
+            background-color: #FFC107; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin-bottom: 25px; 
         }
-        /* Header styling */
         .login-container h2 {
             font-size: 24px;
-            margin-bottom: 0; /* Remove bottom margin */
-            color: #333; /* Change text color to dark */
-            text-align: left; /* Align text to the left */
+            margin-bottom: 0; 
+            color: #333; 
+            text-align: left; 
         }
         .logo-container img {
-            width: 60px; /* Smaller, circular logo */
+            width: 60px; 
             height: 60px;
-            border-radius: 50%; /* Makes the image round */
+            border-radius: 50%; 
         }
-        /* Input fields */
         .form-group {
             margin-bottom: 20px;
             text-align: left;
@@ -80,7 +76,6 @@
             font-size: 14px;
             box-sizing: border-box;
         }
-        /* Button styling */
         .login-button {
             background-color: #FFC107;
             color: #333;
@@ -97,7 +92,6 @@
         .login-button:hover {
             background-color: #e6a700;
         }
-        /* Change password link */
         .change-password {
             display: block;
             margin-top: 10px;
@@ -110,20 +104,33 @@
             text-decoration: underline;
         }
         .alert {
-            color: red; /* Mengubah warna teks menjadi merah */
+            color: red; 
+        }
+        .input-icon {
+            position: relative;
+        }
+        .input-icon i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #333;
+        }
+        .input-icon .form-control {
+            padding-left: 35px; 
         }
 
     </style>
 </head>
 <body>
-    <div class="overlay"></div> <!-- Overlay effect -->
+    <div class="overlay"></div> 
 
     <div class="login-container">
         <!-- Logo and title -->
         <div class="logo-title-container">
             <h2>Selamat datang,<br> di SIOKE</h2>
             <div class="logo-container">
-                <img src="images/logo.png" alt="Okene Logo"> <!-- Update path if necessary -->
+                <img src="images/logo.png" alt="Okene Logo"> 
             </div>
         </div>
         @if(Session::has('error'))
@@ -137,13 +144,19 @@
             @csrf
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" class="form-control" required placeholder="Username">
+                <div class="input-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" class="form-control" required placeholder="Username">
+                </div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="form-control" required placeholder="Password">
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" class="form-control" required placeholder="Password">
+                </div>
             </div>
-            <a href="#" class="change-password">Change Password</a>
+            <a href="{{ route('change.password.form') }}" class="change-password">Change Password</a>
             <button type="submit" class="login-button">Log in</button>
         </form>
     </div>

@@ -24,5 +24,6 @@ class C_Sales extends Controller
         // dd($detailSales);
         return view("sales.detail", compact('sales', 'detailSales'));
     }
+    
 }
  

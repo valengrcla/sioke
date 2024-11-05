@@ -25,6 +25,6 @@ class Pengguna extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'id_role'); // Gantilah 'role_id' dengan nama kolom foreign key jika berbeda
+        return $this->belongsTo(Role::class, 'id_role'); 
     }
 }

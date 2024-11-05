@@ -25,7 +25,8 @@
         .btn-create {
             background-color: #697565;
             color: white;
-            font-weight: bold;
+            font-size: 0.9rem; /* Reduced font size */
+            padding: 0.4rem 0.6rem;
         }
         .btn-create:hover {
             background-color: #DEF9C4;
@@ -34,16 +35,63 @@
 </head>
 <body>
 @include ('layouts.sidebar')
+<div id="navbar" style="position: fixed; top: 0; right: 0; z-index: 1000; width: auto;">
+    @include('navbar')
+</div>
+
+<style>
+    /* Reduce the size of the navbar */
+    .navbar {
+        padding: 0.3rem 0.5rem;
+        font-size: 1rem; /* Adjust font size for a smaller look */
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 0.5rem 0.5rem;
+        background-color: #fff; /* Add a background color */
+        transition: top 0.3s; /* Transition for smooth hiding */
+    }
+
+    /* Adjust navbar items to fit the smaller size */
+    .navbar-nav .nav-link {
+        padding: 0.2rem 0.5rem;
+    }
+
+    /* Adjust the profile picture size */
+    .navbar img {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+    }
+</style>
+
+<script>
+    let lastScrollTop = 0; // Variable to keep track of last scroll position
+    const navbar = document.getElementById('navbar'); // Get the navbar element
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop; // Current scroll position
+
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down
+            navbar.style.top = "-60px"; // Hide the navbar (adjust -60px to the height of your navbar)
+        } else {
+            // Scrolling up
+            navbar.style.top = "0"; // Show the navbar
+        }
+        lastScrollTop = scrollTop; // Update last scroll position
+    });
+</script>
 <style>
     .mt-n1 {
-        margin-top: -1rem;
+        margin-top: 2rem;
     }
     /* Tambahkan kelas lain sesuai kebutuhan */
 </style>
 <div class="container mt-n1">
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-        <h1>Sales</h1>
-        <button class="btn btn-create"><i class="fas fa-plus"></i> Create Sales</button>
+        <h1 style = "margin-top: -75px">Sales</h1>
+        <div>
+            <button class="btn btn-create"><i class="fas fa-plus"></i> Create Sales</button>
+        </div>
     </div>
 
     <div class="input-group mb-4">
@@ -53,8 +101,9 @@
 
     <style>
         .table thead th {
-            background-color: #697565; /* Ganti dengan warna yang Anda inginkan */
+            background-color: #697565; 
             color: white;
+            font-weight: normal;
         }
     </style>
 
@@ -81,12 +130,12 @@
                     <td>
                         <style>
                             .btn-info {
-                                background-color: #677D6A !important; /* Sesuaikan warna sesuai keinginan */
+                                background-color: #677D6A !important; 
                                 color: white;
                                 border: none;
                             }
                             .btn-sm:hover {
-                                background-color: #DEF9C4 !important; /* Warna saat hover */
+                                background-color: #DEF9C4 !important; 
                             }
                         </style>
                         <a href="{{ route('sales.detail', $Sales->id_nota) }}" class="btn btn-info btn-sm">

@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
         //     ],
         // ]);
 
-        DB::table('pengguna')->where('id_pengguna', "d848af6c-f6da-49b3-b4e8-e34c2f23aba4")->update([
-            'password' => bcrypt('bambangpass'),
+        DB::table('pengguna')->where('id_pengguna', "df7c6ac9-534b-4886-9cf2-8a138e871874")->update([
+            'password' => bcrypt('ganispass'),
             'updated_at' => now(),
         ]);
         

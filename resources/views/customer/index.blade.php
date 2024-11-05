@@ -17,62 +17,90 @@
             overflow-x: hidden;
         }
         .container {
-            margin-left: 280px; /* Sama dengan dashboard */
+            margin-left: 280px; 
             padding: 20px;
             width: calc(100% - 280px);
             overflow-x: hidden;
         }
         .card-customer {
             background-color: #FFFF;
-            border: 3px solid #697565;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 3px solid #697565; 
+            border-radius: 8px; 
+            padding: 15px; 
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
+            height: 250px; 
         }
         .card-customer img {
             border-radius: 50%;
-            width: 70px;
-            height: 70px;
+            width: 50px; 
+            height: 50px; 
             object-fit: cover;
         }
         .btn-create {
-            background-color: #FFD43B;
+            background-color: #697565;
             color: white;
-            font-weight: bold;
+            font-size: 0.9rem; 
+            padding: 0.4rem 0.6rem; 
         }
         .btn-create:hover {
-            background-color: #ffc107;
+            background-color: #DEF9C4;
         }
+        h5 {
+            font-size: 1.1rem; 
+        }
+        p {
+            font-size: 0.9rem; 
+            margin: 0.2rem 0; 
+        }
+        .btn-sm {
+            padding: 0.3rem 0.5rem; 
+        }
+        
     </style>
 </head>
 <body>
 @include ('layouts.sidebar')
-<div style="position: fixed; top: 0; right: 0; z-index: 1000; width: auto;">
-    @include ('navbar')
+<div id="navbar" style="position: fixed; top: 0; right: 0; z-index: 1000; width: auto;">
+    @include('navbar')
 </div>
+
 <style>
-    /* Reduce the size of the navbar */
     .navbar {
         padding: 0.3rem 0.5rem;
-        font-size: 0.9rem; /* Adjust font size for a smaller look */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-size: 1rem; 
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
         border-radius: 0 0 0.5rem 0.5rem;
+        background-color: #fff; 
+        transition: top 0.3s; 
     }
 
-    /* Adjust navbar items to fit the smaller size */
     .navbar-nav .nav-link {
         padding: 0.2rem 0.5rem;
     }
 
-    /* Adjust the profile picture size */
     .navbar img {
         width: 25px;
         height: 25px;
         margin-right: 5px;
     }
-    
 </style>
+
+<script>
+    let lastScrollTop = 0; 
+    const navbar = document.getElementById('navbar'); 
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            navbar.style.top = "-60px"; 
+        } else {
+            navbar.style.top = "0"; 
+        }
+        lastScrollTop = scrollTop;
+    });
+</script>
 <style>
     .mt-n1 {
         margin-top: 2rem;
@@ -81,8 +109,10 @@
 </style>
 <div class="container mt-n1">
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-        <h1>Customer</h1>
-        <button class="btn btn-create"><i class="fas fa-plus"></i> Create Customer</button>
+        <h1 style = "margin-top: -75px">Customer</h1>
+            <div>
+            <button class="btn btn-create"><i class="fas fa-plus"></i> Create Customer</button>
+            </div>
     </div>
 
     <div class="input-group mb-4">
@@ -95,13 +125,13 @@
             <div class="col-md-3 mb-4">
                 <div class="card-customer">
                     <img src="{{ asset('images/customer/' . $Customer->customer_img) }}" alt="" width="100">
-                    <h5 class="mt-3">{{ $Customer->nama_customer }}</h5>
-                    <p class="text-muted">{{ $Customer->email_customer }}</p>
-                    <p>{{ $Customer->nohp_customer }}</p>
-                    <p>Total Poin: {{ $Customer->totalpoin_customer }}</p>
-                    <p>Date: {{ \Carbon\Carbon::parse($Customer->created_at)->format('d F Y') }}</p>
+                    <h5 class="mt-2 text-muted fw-bold" style="margin-bottom: 0;">{{ $Customer->nama_customer }}</h5>
+                    <p class="text-muted" style="margin-top: 0; margin-bottom: 0;">{{ $Customer->email_customer }}</p>
+                    <p class="text-start">{{ $Customer->nohp_customer }}</p>
+                    <p class="text-start">Total Poin: {{ $Customer->totalpoin_customer }}</p>
+                    <p class="text-start">Date: {{ \Carbon\Carbon::parse($Customer->created_at)->format('d F Y') }}</p>
                     
-                    <div class="d-flex justify-content-center mt-3">
+                    <div class="d-flex justify-content-center mt-2">
                         <a href="{{ route('customer.edit', $Customer->id_customer) }}" class="btn btn-sm btn-primary me-2">
                             <i class="fas fa-edit"></i>
                         </a>

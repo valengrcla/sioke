@@ -10,7 +10,7 @@ class C_Auth extends Controller
 {
     public function showLoginForm()
     {
-        return view('welcome'); // Tampilkan form login
+        return view('welcome'); 
     }
 
     public function login(Request $request)

@@ -26,32 +26,90 @@
             background-color: #FFFF;
             border: 3px solid #697565;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            height: 250px; 
+        }
+        .card-pengguna img {
+            border-radius: 50%;
+            width: 50px; 
+            height: 50px; 
+            object-fit: cover;
         }
         .btn-create {
-            background-color: #FFD43B;
+            background-color: #697565;
             color: white;
-            font-weight: bold;
+            font-size: 0.9rem; 
+            padding: 0.4rem 0.6rem; 
         }
         .btn-create:hover {
-            background-color: #ffc107;
+            background-color: #DEF9C4;
+        }
+        .card-pengguna h5 {
+            font-size: 1rem; 
+            margin: 0.5rem 0; /
+        }
+        .card-pengguna p {
+            font-size: 0.85rem; 
+            margin: 0.3rem 0; 
         }
     </style>
 </head>
 <body>
 @include ('layouts.sidebar')
+<div id="navbar" style="position: fixed; top: 0; right: 0; z-index: 1000; width: auto;">
+    @include('navbar')
+</div>
+
+<style>
+    .navbar {
+        padding: 0.3rem 0.5rem;
+        font-size: 1rem;
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 0.5rem 0.5rem;
+        background-color: #fff;
+        transition: top 0.3s;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.2rem 0.5rem;
+    }
+
+    .navbar img {
+        width: 25px;
+        height: 25px;
+        margin-right: 5px;
+    }
+</style>
+
+<script>
+    let lastScrollTop = 0;
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+            navbar.style.top = "-60px";
+        } else {
+            navbar.style.top = "0";
+        }
+        lastScrollTop = scrollTop;
+    });
+</script>
 <style>
     .mt-n1 {
-        margin-top: -1rem;
+        margin-top: 2rem;
     }
     /* Tambahkan kelas lain sesuai kebutuhan */
 </style>
 <div class="container mt-n1">
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-        <h1>Pengguna</h1>
-        <button class="btn btn-create"><i class="fas fa-plus"></i> Create Pengguna</button>
+        <h1 style = "margin-top: -75px;">Pengguna</h1>
+        <div>
+            <button class="btn btn-create"><i class="fas fa-plus"></i> Create Pengguna</button>
+        </div>
     </div>
 
     <div class="input-group mb-4">
@@ -63,14 +121,14 @@
         @forelse ($pengguna as $Pengguna)
             <div class="col-md-3 mb-4">
                 <div class="card-pengguna">
-                    <h5 class="mt-3">{{ $Pengguna->nama_pengguna }}</h5>
-                    <p class="text-muted">{{ $Pengguna->role->nama_role }}</p>
-                    <p>Username: {{ $Pengguna->username }}</p>
-                    <p>Password: *****</p>
-                    <p>Date: {{ \Carbon\Carbon::parse($Pengguna->created_at)->format('d F Y') }}</p>
+                    <img src="{{ asset('images/pengguna/' . $Pengguna->user_img) }}" alt="">
+                    <h5 class="mt-2 fw-bold" style="margin-bottom: 0;">{{ $Pengguna->nama_pengguna }}</h5>
+                    <p class="text-muted" style="margin-top: 0; margin-bottom: 0;">{{ $Pengguna->role->nama_role }}</p>
+                    <p class="text-start">Username: {{ $Pengguna->username }}</p>
+                    <p class="text-start">Password: *****</p>
+                    <p class="text-start">Date: {{ \Carbon\Carbon::parse($Pengguna->created_at)->format('d F Y') }}</p>
 
-                    
-                    <div class="d-flex justify-content-center mt-3">
+                    <div class="d-flex justify-content-center mt-2">
                         <a href="{{ route('pengguna.edit', $Pengguna->id_pengguna) }}" class="btn btn-sm btn-primary me-2">
                             <i class="fas fa-edit"></i>
                         </a>

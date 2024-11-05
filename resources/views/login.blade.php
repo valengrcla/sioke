@@ -9,14 +9,12 @@
     <title>SIOKE - Okene Coffee Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Basic Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Background and font setup */
         body {
             font-family: 'Lusitana', sans-serif;
             background-image:  url('{{ asset('images/okenebckg.png') }}'); /* Path ke gambar di public */
@@ -29,7 +27,6 @@
             text-align: center;
         }
 
-        /* Overlay to darken background */
         .overlay {
             position: absolute;
             top: 0;
@@ -40,7 +37,6 @@
             z-index: 1;
         }
 
-        /* Content styling */
         .content {
             position: relative;
             z-index: 2;
@@ -60,7 +56,6 @@
             margin-bottom: 40px;
         }
 
-        /* Button styling */
         .login-button {
             display: inline-block;
             margin-top: 20px;
