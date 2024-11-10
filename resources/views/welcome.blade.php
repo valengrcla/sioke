@@ -104,7 +104,7 @@
             text-decoration: underline;
         }
         .alert {
-            color: red; 
+            color: #007bff; 
         }
         .input-icon {
             position: relative;
@@ -133,6 +133,12 @@
                 <img src="images/logo.png" alt="Okene Logo"> 
             </div>
         </div>
+        @if(session('status'))
+        <div class="alert alert-success" role="alert" style="text-align: center">
+            {{ session('status') }}
+        </div>
+    @endif
+
         @if(Session::has('error'))
         <div class="alert alert-danger" role="alert" style="text-align: center">
             {{Session::get('error')}}

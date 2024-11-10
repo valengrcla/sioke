@@ -56,7 +56,10 @@
         .btn-sm {
             padding: 0.3rem 0.5rem; 
         }
-        
+        .input-group-text {
+            background-color: #697565;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -110,15 +113,17 @@
 <div class="container mt-n1">
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
         <h1 style = "margin-top: -75px">Customer</h1>
-            <div>
-            <button class="btn btn-create"><i class="fas fa-plus"></i> Create Customer</button>
-            </div>
+        <div>
+            <a href="{{ route('customer.create') }}" class="btn btn-create"><i class="fas fa-plus"></i> Create Customer</a>
+        </div>
     </div>
 
-    <div class="input-group mb-4">
-        <span class="input-group-text"><i class="fas fa-search"></i></span>
-        <input type="text" class="form-control" placeholder="Search Customers">
-    </div>
+    <form method="GET" action="{{ route('customer.index') }}">
+        <div class="input-group mb-4">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input type="text" name="search" class="form-control" placeholder="Search Customers" value="{{ request('search') }}">
+        </div>
+    </form>
 
     <div class="row">
         @forelse ($customer as $Customer)
@@ -147,7 +152,7 @@
             </div>
         @empty
             <div class="col-12">
-                <div class="alert alert-warning">Data Customer belum tersedia.</div>
+                <div class="alert alert-warning">No Customers Available!</div>
             </div>
         @endforelse
     </div>

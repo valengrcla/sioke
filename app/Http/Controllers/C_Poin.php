@@ -7,10 +7,18 @@ use App\Models\Poin;
 
 class C_Poin extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $poin=Poin::all();
-        // dd($poin);
-        return view("poin/index", compact('poin'));
+        $search = $request->input('search');  
+        
+        $poin = Poin::when($search, function($query, $search) {
+            return $query->where('id_poin', 'like', "%{$search}%")
+                         ->orWhereHas('customer', function($query) use ($search) {
+                             $query->where('nama_customer', 'like', "%{$search}%");
+                         })
+                         ->orWhere('aktivitas', 'like', "%{$search}%");
+        })->get();
+        
+        return view("poin.index", compact('poin'));
     }
 }

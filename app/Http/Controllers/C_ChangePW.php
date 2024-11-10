@@ -36,6 +36,6 @@ class C_ChangePW extends Controller
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return redirect()->route('change.password.form')->with('status', 'Password changed successfully!');
+        return redirect()->route('login')->with('status', 'Password changed successfully!');
     }
 }

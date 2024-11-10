@@ -15,4 +15,11 @@ class Role extends Model
     protected $casts = [
         'id_role' => 'string',
     ];
+    protected $fillable = ['nama_role'];
+
+    public function pengguna()
+    {
+        // Menghubungkan foreign key di tabel pengguna ('id_role') dengan local key di tabel role ('id')
+        return $this->hasMany(Pengguna::class, 'id_role');
+    }
 }

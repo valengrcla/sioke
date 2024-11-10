@@ -23,11 +23,12 @@ class RoleMiddleware
             'Owner' => [
                 'allowed_routes' => [ 
                     'dashboard',
-                    'pengguna.index', 'pengguna.create', 'pengguna.show', 'pengguna.edit', 'pengguna.delete',
-                    'customer.index', 'customer.create', 'customer.show', 'customer.edit', 'customer.delete',
-                    'product.index', 'product.create', 'product.show', 'product.edit', 'product.delete',
+                    'pengguna.index', 'pengguna.create', 'pengguna.store', 'pengguna.edit', 'pengguna.update', 'pengguna.delete',
+                    'customer.index', 'customer.create', 'customer.store', 'customer.edit', 'customer.update', 'customer.delete',
+                    'product.index', 'product.create', 'product.store', 'product.edit','product.update', 'product.delete',
                     'sales.index', 'sales.create', 'sales.show', 'sales.detail',
                     'poin.index', 'poin.penukaran', 'poin.show', 'logout',
+                    'report.index', 'report.view', 'report.export',
                 ],
             ],
             'Manajer' => [

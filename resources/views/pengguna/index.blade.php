@@ -54,6 +54,10 @@
             font-size: 0.85rem; 
             margin: 0.3rem 0; 
         }
+        .input-group-text {
+            background-color: #697565;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -108,14 +112,16 @@
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
         <h1 style = "margin-top: -75px;">Pengguna</h1>
         <div>
-            <button class="btn btn-create"><i class="fas fa-plus"></i> Create Pengguna</button>
+            <a href="{{ route('pengguna.create') }}" class="btn btn-create"><i class="fas fa-plus"></i> Create Pengguna</a>
         </div>
     </div>
 
-    <div class="input-group mb-4">
-        <span class="input-group-text"><i class="fas fa-search"></i></span>
-        <input type="text" class="form-control" placeholder="Search Pengguna">
-    </div>
+    <form method="GET" action="{{ route('pengguna.index') }}">
+        <div class="input-group mb-4">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input type="text" name="search" class="form-control" placeholder="Search Pengguna" value="{{ request('search') }}">
+        </div>
+    </form>
 
     <div class="row">
         @forelse ($pengguna as $Pengguna)
@@ -132,7 +138,7 @@
                         <a href="{{ route('pengguna.edit', $Pengguna->id_pengguna) }}" class="btn btn-sm btn-primary me-2">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('pengguna.delete', $Pengguna->id_pengguna) }}" method="POST">
+                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('pengguna.delete',  $Pengguna->id_pengguna) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger">
@@ -144,7 +150,7 @@
             </div>
         @empty
             <div class="col-12">
-                <div class="alert alert-warning">Data Pengguna belum tersedia.</div>
+                <div class="alert alert-warning">No Users Available!</div>
             </div>
         @endforelse
     </div>

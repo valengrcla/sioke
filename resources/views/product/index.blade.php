@@ -56,6 +56,10 @@
         .btn-sm {
             padding: 0.3rem 0.5rem;
         }
+        .input-group-text {
+            background-color: #697565;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -108,14 +112,16 @@
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
         <h1 style = "margin-top: -75px">Products</h1>
         <div>
-            <button class="btn btn-create"><i class="fas fa-plus"></i> Create Product</button>
+            <a href="{{ route('product.create') }}" class="btn btn-create"><i class="fas fa-plus"></i> Create Product</a>
         </div>
     </div>
 
-    <div class="input-group mb-4">
-        <span class="input-group-text"><i class="fas fa-search"></i></span>
-        <input type="text" class="form-control" placeholder="Search Products">
-    </div>
+    <form method="GET" action="{{ route('product.index') }}">
+        <div class="input-group mb-4">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input type="text" name="search" value="{{ request()->query('search') }}" class="form-control" placeholder="Search Products">
+        </div>
+    </form>
 
     <div class="row">
         @forelse ($product as $Product)
@@ -132,7 +138,7 @@
                             <i class="fas fa-edit"></i>
                         </a>
 
-                        <form onsubmit="return confirm('Are you sure?');" action="{{ route('product.delete', $Product->id_product) }}" method="POST">
+                        <form onsubmit="return confirm('Apakah Anda Yakin?');" action="{{ route('product.delete', $Product->id_product) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger {{ session('user') && session('user')->role->nama_role === 'Owner' ? '' : 'd-none' }}">
@@ -144,7 +150,7 @@
             </div>
         @empty
             <div class="col-12">
-                <div class="alert alert-warning">No products available.</div>
+                <div class="alert alert-warning">No Products Available!</div>
             </div>
         @endforelse
     </div>

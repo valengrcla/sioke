@@ -31,6 +31,10 @@
         .btn-create:hover {
             background-color: #DEF9C4;
         }
+        .input-group-text {
+            background-color: #697565;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -89,10 +93,12 @@
         </div>
     </div>
 
-    <div class="input-group mb-4">
-        <span class="input-group-text"><i class="fas fa-search"></i></span>
-        <input type="text" class="form-control" placeholder="Search Poin">
-    </div>
+    <form method="GET" action="{{ route('poin.index') }}">
+        <div class="input-group mb-4">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input type="text" class="form-control" name="search" placeholder="Search Poin" value="{{ request()->get('search') }}">
+        </div>
+    </form>
     <style>
         .table thead th {
             background-color: #697565; 
@@ -122,7 +128,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center">Data Poin belum tersedia.</td>
+                    <td colspan="5" class="text-center">No Points Available!</td>
                 </tr>
             @endforelse
         </tbody>

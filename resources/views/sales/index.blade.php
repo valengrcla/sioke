@@ -31,6 +31,10 @@
         .btn-create:hover {
             background-color: #DEF9C4;
         }
+        .input-group-text {
+            background-color: #697565;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -90,14 +94,16 @@
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
         <h1 style = "margin-top: -75px">Sales</h1>
         <div>
-            <button class="btn btn-create"><i class="fas fa-plus"></i> Create Sales</button>
+            <a href="{{ route('sales.create') }}" class="btn btn-create"><i class="fas fa-plus"></i> Create Sales</a>
         </div>
     </div>
 
-    <div class="input-group mb-4">
-        <span class="input-group-text"><i class="fas fa-search"></i></span>
-        <input type="text" class="form-control" placeholder="Search Sales">
-    </div>
+    <form method="GET" action="{{ route('sales.index') }}">
+        <div class="input-group mb-4">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input type="text" class="form-control" name="search" placeholder="Search Sales" value="{{ request()->get('search') }}">
+        </div>
+    </form>
 
     <style>
         .table thead th {
@@ -145,7 +151,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center">Data Sales belum tersedia.</td>
+                    <td colspan="6" class="text-center">No Sales Available!</td>
                 </tr>
             @endforelse
         </tbody>
