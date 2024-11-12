@@ -87,6 +87,8 @@ class C_Customer extends Controller
             'nohp_customer' => 'required|string|max:13|unique:customer,nohp_customer,'. $id_customer. ',id_customer|regex:/^[0-9]{10,13}$/',
             'customer_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
+            'email_customer.unique' => 'Email sudah digunakan. Silakan pilih email lain.',
+            'nohp_customer.unique' => 'No HP sudah digunakan. Silakan pilih nomor lain.',
             'nohp_customer.regex' => 'Nomor HP harus berupa angka!',
             'nohp_customer.max'=> 'Nomor HP tidak bisa lebih dari 13 digit!',
         ]);

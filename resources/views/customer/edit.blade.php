@@ -98,6 +98,9 @@
             <div class="mb-3">
                 <label for="email_customer" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email_customer" name="email_customer" placeholder="Enter Email" value="{{ $customer->email_customer }}" required>
+                @if ($errors->has('email_customer'))
+                    <div class="text-danger"> <strong> {{ $errors->first('email_customer') }}</strong></div>
+                @endif
             </div>
        
             <!-- No HP -->

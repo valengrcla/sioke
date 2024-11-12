@@ -130,11 +130,14 @@
                     <option disabled>Pilih Role</option>
                     @foreach ($role as $roles)
                         <option value="{{ $roles->id_role }}" 
-                            @if (isset($user) && $user->id_role == $roles->id_role) selected @endif>
+                            @if ($pengguna->id_role == $roles->id_role) selected @endif>
                             {{ $roles->nama_role }}
                         </option>
                     @endforeach
                 </select>
+                @error('id_role')
+                    <div class="text-danger">{{ $message }}</div> <!-- Tampilkan pesan error jika ada -->
+                @enderror
             </div>
         
             <!-- Submit Button -->

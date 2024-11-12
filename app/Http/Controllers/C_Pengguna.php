@@ -42,6 +42,7 @@ class C_Pengguna extends Controller
             'user_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'username.unique' => 'Username sudah digunakan. Silakan pilih username lain.',
+            'id_role.required' => 'Silakan pilih role untuk pengguna.',
         ]);
 
         $fotoPath = ''; // Default path jika tidak ada gambar di-upload

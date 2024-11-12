@@ -127,6 +127,9 @@
                         <option value="{{ $roles->id_role }}">{{ $roles->nama_role }}</option>
                     @endforeach
                 </select>
+                @error('id_role')
+                    <div class="text-danger">{{ $message }}</div> <!-- Tampilkan pesan error di sini -->
+                @enderror
             </div>
 
             <!-- Submit Button -->
