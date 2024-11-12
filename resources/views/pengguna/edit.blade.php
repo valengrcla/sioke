@@ -12,6 +12,32 @@
         body {
             font-family: 'Lusitana', serif;
         }
+        .mb-3 {
+            background-color: #9CA986;
+            border-radius: 5px;
+        }
+        
+        /* Menjaga input tetap putih dan border bersih */
+        .form-control {
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+
+        /* Mengubah teks label menjadi putih agar kontras */
+        .form-label {
+            color: #000000;
+        }
+        .btn-secondary, .btn-primary {
+            background-color: #FFD54F;
+            color: #000000; /* Dark green text color for contrast */
+            border: none;
+        }
+
+        /* Hover effect for buttons */
+        .btn-secondary:hover, .btn-primary:hover {
+            background-color: #DEF9C4; /* Light green hover effect */
+            color: #333; /* Darker text color on hover */
+        }
     </style>
 </head>
 <body>
@@ -60,7 +86,9 @@
     <div class="container mt-5 mb-5" style="margin-left: 280px; max-width: 900px; min-height: 700px;">
         <h2 class="mb-4">Pengguna / Edit Pengguna</h2>
         
-        <form action="{{ route('pengguna.update', $pengguna->id_pengguna) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pengguna.update', $pengguna->id_pengguna) }}" method="POST" enctype="multipart/form-data"
+            class="border p-4 rounded" 
+            style="background-color: #9CA986; min-height: 550px; position: relative; padding-bottom: 150px;">
             @csrf
             @method('PUT')
         
@@ -74,6 +102,9 @@
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan Username" value="{{ $pengguna->username }}" required>
+                @if ($errors->has('username'))
+                    <div class="text-danger">{{ $errors->first('username') }}</div>
+                @endif
             </div>
         
             <!-- Password -->
@@ -107,7 +138,7 @@
             </div>
         
             <!-- Submit Button -->
-            <div class="d-flex justify-content-between" style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+            <div class="d-flex justify-content-between">
                 <a href="{{ route('pengguna.index') }}" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Edit Pengguna</button>
             </div>

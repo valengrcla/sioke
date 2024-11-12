@@ -36,6 +36,10 @@ class C_Product extends Controller
             'harga_product' => 'required|numeric',
             'harga_poinproduct' => 'required|numeric',
             'product_img' => 'nullable|image|mimes:jpeg,png,jpg|max:200',
+        ], [
+            'nama_product.unique' => 'Nama produk sudah digunakan. Silakan pilih nama lain.',
+            'harga_product.numeric' => 'Harga harus dalam angka',
+            'harga_poinproduct.numeric' => 'Harga harus dalam angka',
         ]);
         $fotoPath = ''; // Default path jika tidak ada gambar di-upload
 
@@ -68,11 +72,17 @@ class C_Product extends Controller
 
     public function update(Request $request, $id_product)
     {
+        $product = Product::findOrFail($id_product);
+
         $request->validate([
-            'nama_product' => 'required|string|max:100|unique:product,nama_product',
+            'nama_product' => 'required|string|max:100|unique:product,nama_product,' . $product->id_product . ',id_product',
             'harga_product' => 'required|numeric',
             'harga_poinproduct' => 'required|numeric',
             'product_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'nama_product.unique' => 'Nama produk sudah digunakan. Silakan pilih nama lain.',
+            'harga_product.numeric' => 'Harga harus dalam angka',
+            'harga_poinproduct.numeric' => 'Harga harus dalam angka',
         ]);
         $product = Product::findOrFail($id_product);
 

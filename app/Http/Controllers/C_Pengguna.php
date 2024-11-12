@@ -40,6 +40,8 @@ class C_Pengguna extends Controller
             'password' => 'required|string|min:8', // Panjang minimal password
             'id_role' => 'required|exists:role,id_role', // Pastikan role ada di database
             'user_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'username.unique' => 'Username sudah digunakan. Silakan pilih username lain.',
         ]);
 
         $fotoPath = ''; // Default path jika tidak ada gambar di-upload
@@ -81,7 +83,10 @@ class C_Pengguna extends Controller
             'password' => 'nullable|string|min:8', // Panjang minimal password
             'id_role' => 'required|exists:role,id_role', // Pastikan role ada di database
             'user_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'username.unique' => 'Username sudah digunakan. Silakan pilih username lain.',
         ]);
+        
         $pengguna = Pengguna::findOrFail($id_pengguna);
 
         $pengguna->nama_pengguna = $request->input('nama_pengguna');

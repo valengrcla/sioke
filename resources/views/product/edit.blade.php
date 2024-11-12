@@ -12,6 +12,32 @@
         body {
             font-family: 'Lusitana', serif;
         }
+        .mb-3 {
+            background-color: #9CA986;
+            border-radius: 5px;
+        }
+        /* Menjaga input tetap putih dan border bersih */
+        .form-control {
+            background-color: white;
+            border: 1px solid #ccc;
+        }
+
+        /* Mengubah teks label menjadi putih agar kontras */
+        .form-label {
+            color: #000000;
+        }
+        .btn-secondary, .btn-primary {
+            background-color: #FFD54F;
+            color: #000000; /* Dark green text color for contrast */
+            border: none;
+        }
+
+        /* Hover effect for buttons */
+        .btn-secondary:hover, .btn-primary:hover {
+            background-color: #DEF9C4; /* Light green hover effect */
+            color: #333; /* Darker text color on hover */
+        }
+        
     </style>
 </head>
 <body>
@@ -64,7 +90,7 @@
         <!-- Formulir dengan posisi relatif dan padding bawah tambahan -->
         <form action="{{ route('product.update', $product->id_product) }}" method="POST" enctype="multipart/form-data" 
               class="border p-4 rounded" 
-              style="background-color: #f8f9fa; min-height: 550px; position: relative; padding-bottom: 150px;">
+              style="background-color: #9CA986; min-height: 550px; position: relative; padding-bottom: 150px;">
             @csrf
             @method('PUT')
 
@@ -72,18 +98,27 @@
             <div class="mb-3">
                 <label for="nama_product" class="form-label">Nama</label>
                 <input type="text" class="form-control" id="nama_product" name="nama_product" placeholder="Masukkan Nama Product" value="{{ $product->nama_product }}" required>
+                @if ($errors->has('nama_product'))
+                    <div class="text-danger">{{ $errors->first('nama_product') }}</div>
+                @endif
             </div>
 
             <!-- Harga Product -->
             <div class="mb-3">
                 <label for="harga_product" class="form-label">Harga</label>
                 <input type="text" class="form-control" id="harga_product" name="harga_product" placeholder="Masukkan Harga Product" value="{{ $product->harga_product }}" required>
+                @if ($errors->has('harga_product'))
+                    <div class="text-danger">{{ $errors->first('harga_product') }}</div>
+                @endif
             </div>
 
             <!-- Harga Poin Product -->
             <div class="mb-3">
                 <label for="harga_poinproduct" class="form-label">Harga Poin</label>
                 <input type="text" class="form-control" id="harga_poinproduct" name="harga_poinproduct" placeholder="Masukkan Harga Poin Product" value="{{ $product->harga_poinproduct }}" required>
+                @if ($errors->has('harga_poinproduct'))
+                    <div class="text-danger">{{ $errors->first('harga_poinproduct') }}</div>
+                @endif
             </div>
 
             <!-- Upload Image -->

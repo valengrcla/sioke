@@ -15,7 +15,6 @@
         .mb-3 {
             background-color: #9CA986;
             border-radius: 5px;
-            padding: 10px;
         }
         
         /* Menjaga input tetap putih dan border bersih */
@@ -92,27 +91,37 @@
         <!-- Formulir dengan posisi relatif dan padding bawah tambahan -->
         <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data" 
               class="border p-4 rounded" 
-              style="background-color: #9CA986; min-height: 550px; position: relative; padding-bottom: 150px;">
+              style="background-color: #9CA986; min-height: 450px; position: relative; padding-bottom: 150px;">
             @csrf
             <div class="mb-3">
                 <label for="nama_product" class="form-label">Nama Product</label>
                 <input type="text" class="form-control" id="nama_product" name="nama_product" placeholder="Enter Product Name" required>
+                @if ($errors->has('nama_product'))
+                    <div class="text-danger">{{ $errors->first('nama_product') }}</div>
+                @endif
             </div>
             <div class="mb-3">
                 <label for="harga_product" class="form-label">Harga</label>
                 <input type="text" class="form-control" id="harga_product" name="harga_product" placeholder="Enter Product Price" required>
+                @if ($errors->has('harga_product'))
+                    <div class="text-danger">{{ $errors->first('harga_product') }}</div>
+                @endif
             </div>
             <div class="mb-3">
                 <label for="harga_poinproduct" class="form-label">Harga Poin</label>
                 <input type="text" class="form-control" id="harga_poinproduct" name="harga_poinproduct" placeholder="Enter Product Price in Points" required >
+                @if ($errors->has('harga_poinproduct'))
+                    <div class="text-danger">{{ $errors->first('harga_poinproduct') }}</div>
+                @endif
             </div>
             <div class="mb-3">
                 <label for="product_img" class="form-label">Upload Image</label>
                 <input type="file" class="form-control" id="product_img" name="product_img" accept="image/*">
             </div>
             
+            
             <!-- Menambahkan div absolute untuk menempatkan tombol di bagian bawah -->
-            <div class="d-flex justify-content-between" style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+            <div class="d-flex justify-content-between mt-4">
                 <a href="{{ route('product.index') }}" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Create Product</button>
             </div>

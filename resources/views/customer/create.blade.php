@@ -15,7 +15,6 @@
         .mb-3 {
             background-color: #9CA986;
             border-radius: 5px;
-            padding: 10px;
         }
         
         /* Menjaga input tetap putih dan border bersih */
@@ -92,7 +91,7 @@
         <!-- Formulir dengan posisi relatif dan padding bawah tambahan -->
         <form action="{{ route('customer.store') }}" method="POST" enctype="multipart/form-data" 
               class="border p-4 rounded" 
-              style="background-color: #9CA986; min-height: 550px; position: relative; padding-bottom: 150px;">
+              style="background-color: #9CA986; min-height: 450px; position: relative; padding-bottom: 100px;">
             @csrf
             <div class="mb-3">
                 <label for="nama_customer" class="form-label">Nama</label>
@@ -101,10 +100,16 @@
             <div class="mb-3">
                 <label for="email_customer" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email_customer" name="email_customer" placeholder="Enter Email" required>
+                @if ($errors->has('email_customer'))
+                    <div class="text-danger">{{ $errors->first('email_customer') }}</div>
+                @endif
             </div>
             <div class="mb-3">
                 <label for="nohp_customer" class="form-label">No. HP</label>
                 <input type="text" class="form-control" id="nohp_customer" name="nohp_customer" placeholder="Enter Phone Number" required>
+                @if ($errors->has('nohp_customer'))
+                    <div class="text-danger">{{ $errors->first('nohp_customer') }}</div>
+                @endif
             </div>
             <div class="mb-3">
                 <label for="customer_img" class="form-label">Upload Image</label>
@@ -112,7 +117,7 @@
             </div>
             
             <!-- Menambahkan div absolute untuk menempatkan tombol di bagian bawah -->
-            <div class="d-flex justify-content-between" style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+            <div class="d-flex justify-content-between" >
                 <a href="{{ route('customer.index') }}" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Create Customer</button>
             </div>
