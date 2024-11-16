@@ -58,8 +58,9 @@ Route::middleware('login', 'role:')->group(function () {
         Route::get('sales/detail/{id_nota}', [C_Sales::class, 'detail_sales'])->name('sales.detail');
 
         Route::get('/poin', [C_Poin::class, 'index'])->name('poin.index');
-        Route::get('/poin/create', [C_Poin::class, 'create'])->name('poin.penukaran'); 
-        Route::get('/poin/{poin}', [C_Poin::class, 'show'])->name('poin.show');
+        // Route::get('/poin/create', [C_Poin::class, 'create'])->name('poin.penukaran'); 
+        Route::get('/poin/create', [C_Poin::class, 'create'])->name('poin.create'); 
+        Route::post('/poin', [C_Poin::class, 'store'])->name('poin.store');
 
         Route::get('/report', [C_Report::class, 'getReport'])->name('report.index');
         Route::get('/report/export', [C_Report::class, 'exportExcel'])->name('report.export');

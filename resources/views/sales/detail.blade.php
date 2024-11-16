@@ -6,6 +6,7 @@
     <title>Detail Sales</title>
     <link href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* General page styles */
         body {
@@ -14,7 +15,7 @@
             margin: 0;
             overflow-x: hidden;
         }
-
+ 
         .content-wrapper {
             display: flex;
             justify-content: center;
@@ -22,7 +23,7 @@
             padding: 20px;
             width: calc(100% - 280px);
         }
-
+ 
         .container {
             max-width: 900px;
             margin-top: 2rem;
@@ -32,7 +33,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-
+ 
         /* Navbar styling */
         .navbar {
             padding: 0.3rem 0.5rem;
@@ -41,7 +42,7 @@
             background-color: #fff;
             transition: top 0.3s;
         }
-
+ 
         /* Table styles */
         .table {
             margin-top: 1rem;
@@ -50,7 +51,7 @@
         }
         .table th, .table td {
             padding: 0.75rem;
-            border: 1.5px solid #000000; 
+            border: 1.5px solid #000000;
             color: 697565; /* Text color */
         }
         .table thead th {
@@ -59,7 +60,7 @@
             text-align: center;
             vertical-align: middle;
         }
-
+ 
         /* Button styling */
         .btn-back {
             background-color: #697565; /* White background */
@@ -76,7 +77,7 @@
 </head>
 <body>
     @include('layouts.sidebar')
-
+ 
     <div id="navbar" style="position: fixed; top: 0; right: 0; z-index: 1000; width: auto;">
         @include('navbar')
     </div><style>
@@ -89,12 +90,12 @@
             background-color: #fff; /* Add a background color */
             transition: top 0.3s; /* Transition for smooth hiding */
         }
-    
+   
         /* Adjust navbar items to fit the smaller size */
         .navbar-nav .nav-link {
             padding: 0.2rem 0.5rem;
         }
-    
+   
         /* Adjust the profile picture size */
         .navbar img {
             width: 25px;
@@ -102,7 +103,7 @@
             margin-right: 5px;
         }
     </style>
-
+ 
     <script>
         let lastScrollTop = 0;
         const navbar = document.getElementById('navbar');
@@ -112,7 +113,7 @@
             lastScrollTop = scrollTop;
         });
     </script>
-
+ 
     <div class="content-wrapper">
         <div class="container">
             <h1 class="text-center mb-4">Detail Sales</h1>
@@ -120,7 +121,8 @@
                 <table class="table table-bordered align-middle">
                     <tr>
                         <th>ID Nota</th>
-                        <td>{{ $sales->detail_sales->id_nota }}</td>
+                        <!-- Access id_nota directly from the sales object -->
+                        <td>{{ $sales->id_nota }}</td>
                     </tr>
                     <tr>
                         <th>Tanggal</th>
@@ -147,9 +149,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($detailSales as $detail)
+                                    <!-- Loop melalui 'detail_sales' yang sudah dimuat dari relasi -->
+                                    @foreach($sales->detail_sales as $detail)
                                         <tr>
-                                            <td>{{ $detail->nama_product }}</td>
+                                            <!-- Mengakses data nama produk melalui relasi 'product' -->
+                                            <td>{{ $detail->product->nama_product }}</td>
                                             <td>{{ $detail->quantity }}</td>
                                             <td>{{ number_format($detail->harga, 2, ',', '.') }}</td>
                                             <td>{{ number_format($detail->subtotal, 2, ',', '.') }}</td>
@@ -180,7 +184,8 @@
             </div>
         </div>
     </div>
-
+ 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+ 

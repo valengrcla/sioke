@@ -89,7 +89,8 @@
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
         <h1 style = "margin-top: -75px">Poin</h1>
         <div>
-            <button class="btn btn-create"><i class="fas fa-plus"></i> Penukaran</button>
+            {{-- <button class="btn btn-create"><i class="fas fa-plus"></i> Penukaran</button> --}}
+            <a href="{{ route('poin.create') }}" class="btn btn-create"><i class="fas fa-plus"></i> Penukaran</a>
         </div>
     </div>
 
