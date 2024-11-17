@@ -14,7 +14,13 @@ class Penukaran extends Model
     protected $primaryKey = 'id_penukaran';
     public $timestamps = true;  // Aktifkan timestamps (jika ingin menggunakan created_at)
     const UPDATED_AT = null;
+    public $incrementing = false; // Non-increment karena UUID
+    protected $keyType = 'string';
     protected $guarded = ['id_penukaran', 'created_at'];
+    // protected $casts = [
+    //     'id_penukaran' => 'string'
+    // ];
+
 
     protected static function booted()
     {

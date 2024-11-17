@@ -17,10 +17,13 @@ class Poin extends Model
     protected $primaryKey = 'id_poin';
     public $timestamps = true; // Aktifkan timestamps
     const UPDATED_AT = null;
+    public $incrementing = false; // Non-increment karena UUID
+    protected $keyType = 'string';
     protected $guarded = ['id_poin', 'created_at'];
-    protected $casts = [
-        'id_poin' => 'string',
-    ];
+    // protected $casts = [
+    //     'id_poin' => 'string',
+    //     'id_penukaran' => 'string'
+    // ];
 
     protected static function booted()
     {

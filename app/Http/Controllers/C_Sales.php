@@ -104,6 +104,7 @@ class C_Sales extends Controller
             'id_customer' => $customer->id_customer,
             'aktivitas' => 'penambahan',
             'poin' => 1,
+            'id_nota' => $sales->id_nota,
         ]);
  
         return redirect()->route('sales.index')->with('success', 'Sales created successfully!');

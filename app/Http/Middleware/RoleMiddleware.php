@@ -27,7 +27,7 @@ class RoleMiddleware
                     'customer.index', 'customer.create', 'customer.store', 'customer.edit', 'customer.update', 'customer.delete',
                     'product.index', 'product.create', 'product.store', 'product.edit','product.update', 'product.delete',
                     'sales.index', 'sales.create', 'sales.store', 'sales.detail',
-                    'poin.index', 'poin.create', 'poin.store','poin.penukaran', 'poin.show', 'logout',
+                    'poin.index', 'poin.create', 'poin.store', 'logout',
                     'report.index', 'report.view', 'report.export',
                 ],
             ],
@@ -37,7 +37,7 @@ class RoleMiddleware
                     'customer.index', 'customer.create', 'customer.show', 'customer.edit', 
                     'product.index', 'product.create', 'product.show', 'product.edit', 
                     'sales.index', 'sales.create', 'sales.store', 'sales.detail',
-                    'poin.index', 'poin.penukaran', 'poin.show', 'logout',
+                    'poin.index', 'poin.create', 'poin.store', 'logout',
                 ],
             ],
             'Pegawai' => [
@@ -45,7 +45,7 @@ class RoleMiddleware
                     'dashboard',
                     'customer.index', 'customer.create', 'customer.show', 'customer.edit', 
                     'sales.index', 'sales.create', 'sales.store', 'sales.detail',
-                    'poin.index', 'poin.penukaran', 'poin.show', 'logout',
+                    'poin.index', 'poin.create', 'poin.store', 'logout',
                 ],
             ],
         ];
