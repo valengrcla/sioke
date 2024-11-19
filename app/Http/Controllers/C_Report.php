@@ -17,13 +17,14 @@ class C_Report extends Controller
         }
 
         $report = DB::table('sales')
-            ->join('customer', 'sales.id_customer', '=', 'customer.id_customer')
+            ->leftjoin('customer', 'sales.id_customer', '=', 'customer.id_customer')
             ->join('detail_sales', 'sales.id_nota', '=', 'detail_sales.id_nota')
             ->join('product', 'detail_sales.id_product', '=', 'product.id_product')
             ->select(
                 'sales.id_nota',
                 DB::raw('DATE(sales.created_at) as tanggalPenjualan'),
                 'customer.nama_customer',
+                DB::raw('IFNULL(customer.nama_customer, "Without Member") as nama_customer'), // Default "Without Member"
                 DB::raw('GROUP_CONCAT(product.nama_product SEPARATOR ", ") as namaMenu'),
                 DB::raw('SUM(detail_sales.quantity) as totalQuantity'),
                 'sales.total_harga'

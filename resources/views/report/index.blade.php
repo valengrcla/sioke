@@ -173,7 +173,7 @@
                         <tr>
                             <td>{{ $data->id_nota }}</td>
                             <td>{{ $data->tanggalPenjualan }}</td>
-                            <td>{{ $data->nama_customer }}</td>
+                            <td>{{ $data->nama_customer ?: 'Without Member' }}</td>
                             <td>{{ $data->namaMenu }}</td>
                             <td>{{ $data->totalQuantity }}</td>
                             <td>{{ $data->total_harga }}</td>

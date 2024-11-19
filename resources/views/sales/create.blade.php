@@ -120,7 +120,7 @@
                     </div>
                     <div style="width: 70px; margin-left: 8px;">
                         <label for="product[0][quantity]" class="form-label">Quantity</label>
-                        <input type="number" name="product[0][quantity]" class="form-control quantity-input" value="1" min="0" onchange="updateTotalPrice(); checkQuantity(this)">
+                        <input type="number" name="product[0][quantity]" class="form-control quantity-input" value="0" min="0" onchange="checkQuantity(this)">
                     </div>
                     <button type="button" class="btn btn-link text-danger remove-btn" onclick="removeProduct(this)" disabled>Remove</button>
                 </div>
@@ -172,6 +172,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for product warning -->
+    <div class="modal fade" id="productErrorModal" tabindex="-1" aria-labelledby="productErrorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productErrorModalLabel">
+                        <i class="fas fa-exclamation-triangle" style="color: #D32F2F;"></i> Warning
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="productErrorMessage">At least one product must be selected.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
  
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
@@ -225,7 +246,7 @@
             </div>
             <div style="width: 70px; margin-left: 8px;">
                 <label for="product[${productIndex}][quantity]" class="form-label">Quantity</label>
-                <input type="number" name="product[${productIndex}][quantity]" class="form-control quantity-input" value="1" min="0" onchange="updateTotalPrice(); checkQuantity(this)">
+                <input type="number" name="product[${productIndex}][quantity]" class="form-control quantity-input" value="0" min="0" onchange="checkQuantity(this)">
             </div>
             <button type="button" class="btn btn-link text-danger remove-btn" onclick="removeProduct(this)">Remove</button>
         `;
@@ -236,13 +257,39 @@
         updateRemoveButtons();
     }
  
-    // Hapus produk
-    function removeProduct(element) {
-        element.parentElement.remove();
-        updateTotalPrice();
+    // Fungsi untuk memeriksa quantity dan menghapus produk jika quantity 0
+    function checkQuantity(inputElement) {
+        const quantity = parseInt(inputElement.value) || 0;
+        const productItem = inputElement.closest('.product-item');
+        const productSelect = productItem.querySelector('.product-select');
+
+        if (quantity === 0 && productSelect.value) {
+            // Jika quantity 0 dan produk telah dipilih, hapus item
+            removeProduct(productItem.querySelector('.remove-btn'));
+        } else {
+            // Jika tidak, perbarui total harga
+            updateTotalPrice();
+        }
+    }
  
-        // Perbarui status tombol Remove
-        updateRemoveButtons();
+    // Hapus produk
+    function removeProduct(removeButton) {
+        const productSection = document.getElementById('product-section');
+        const productItems = productSection.querySelectorAll('.product-item');
+
+        // Pastikan minimal ada satu produk yang tersisa
+        if (productItems.length > 1) {
+            removeButton.parentElement.remove();
+            updateTotalPrice();
+            updateRemoveButtons();
+        } else {
+            // alert("At least one product must be selected.");
+            $('#productErrorModal').modal('show');
+            const lastProductItem = productItems[0];
+            const quantityInput = lastProductItem.querySelector('.quantity-input');
+            quantityInput.value = 1; // Set quantity kembali menjadi 1
+            updateTotalPrice(); // Perbarui total harga
+        }
     }
  
     // Perbarui status tombol Remove
@@ -254,16 +301,7 @@
         });
     }
 
-    // Fungsi untuk memeriksa quantity dan menghapus produk jika quantity 0
-    function checkQuantity(inputElement) {
-        const quantity = parseInt(inputElement.value) || 0;
-        if (quantity === 0) {
-            removeProduct(inputElement.closest('.product-item').querySelector('.remove-btn'));
-        } else {
-            updateTotalPrice();
-        }
-    }
- 
+    
     // Hitung total harga
     function updateTotalPrice() {
         let totalPrice = 0;
@@ -274,6 +312,16 @@
             const quantityInput = item.querySelector('.quantity-input');
  
             const productPrice = parseFloat(productSelect.options[productSelect.selectedIndex]?.getAttribute('data-price') || 0);
+             // Jika produk sudah dipilih, pastikan quantity minimal 1
+            if (productSelect.value) {
+                if (quantityInput.value === "0" || quantityInput.value === "") {
+                    quantityInput.value = 1;
+                }
+            } else {
+                // Jika belum ada produk, pastikan quantity tetap 0
+                quantityInput.value = 0;
+            }
+            
             const quantity = parseInt(quantityInput.value) || 0;
  
             totalPrice += productPrice * quantity;

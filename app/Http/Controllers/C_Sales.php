@@ -55,8 +55,6 @@ class C_Sales extends Controller
         // Validate the input data
         $request->validate([
             'id_pengguna' => 'required|exists:pengguna,id_pengguna',
-            // 'id_customer' => 'required|exists:customer,id_customer',
-            // 'id_customer' => 'required',
             'id_customer' => 'nullable|exists:customer,id_customer', // Nullable untuk customer
             'product' => 'required|array',
             'product.*.id_product' => 'required|exists:product,id_product',
@@ -65,22 +63,8 @@ class C_Sales extends Controller
             'bayar' => 'required|numeric',
         ]);
 
-        // if ($request->bayar < $request->total_harga) {
-        //     return back()->with('error', 'Jumlah bayar kurang dari total harga.');
-        // }
-
-        // Validasi custom untuk memastikan jumlah bayar >= total harga
-        // if ($request->bayar < $request->total_harga) {
-        //     return back()
-        //         ->withErrors(['bayar' => 'Jumlah bayar tidak boleh kurang dari total harga!'])
-        //         ->withInput();
-        // }
- 
         $total_pembayaran = $request->bayar;
         $total_kembali = $total_pembayaran - $request->total_harga;
-
-        // // Handle customer ID for "Tanpa Member"
-        // $customerId = $request->id_customer === 'tanpa_member' ? 'tanpa_member' : $request->id_customer;
 
         // Ambil id_customer (NULL jika tidak ada)
         $customerId = $request->id_customer;
@@ -121,19 +105,6 @@ class C_Sales extends Controller
                 'subtotal' => $subtotal,
             ]);
         }
-
-        // // Tambahkan poin ke customer terkait
-        // $customer = Customer::findOrFail($request->id_customer); // Ambil data customer terkait
-        // $customer->increment('totalpoin_customer', 1); // Tambah 1 poin
-        
-        // Poin::create([
-        //     'id_customer' => $customer->id_customer,
-        //     'aktivitas' => 'penambahan',
-        //     'poin' => 1,
-        //     'id_nota' => $sales->id_nota,
-        // ]);
-
-
         // Tambahkan poin jika customer ID tidak NULL
         if (!is_null($customerId)) {
             $customer = Customer::findOrFail($customerId);
