@@ -26,6 +26,12 @@ class Customer extends Model
         'customer_img',
         'totalpoin_customer'
     ];
+
+    public function getCustomerImgAttribute($value)
+    {
+        return $value ?: 'default-profile.png'; // Default image jika null atau kosong
+    }
+
     
     protected static function booted()
     {

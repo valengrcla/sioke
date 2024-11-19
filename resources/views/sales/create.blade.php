@@ -56,6 +56,22 @@
         .no-spinner {
             -moz-appearance: textfield; /* Untuk Firefox */
         }
+        
+        .modal-dialog {
+            position: fixed; /* Pastikan modal tetap di tempat meskipun halaman discroll */
+            top: 30%; /* Atur posisi modal ke atas sedikit (sesuaikan nilai ini) */
+            left: 40%;
+            transform: translateX(-50%); /* Menjaga modal tetap terpusat secara horizontal */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+        }
+
+        .modal-content {
+            margin-top: 0; /* Adjust this value to shift the modal down */
+        }
+        
     </style>
 </head>
 <body>
@@ -81,8 +97,10 @@
             </div>
             <div class="mb-3">
                 <label for="id_customer" class="form-label">Choose Customer</label>
-                <select id="id_customer" name="id_customer" class="form-control select2" required>
-                    <option value="" disabled selected>Select a Customer</option>
+                <select id="id_customer" name="id_customer" class="form-control select2">
+                    {{-- <option value="" disabled selected>Select a Customer</option> --}}
+                    {{-- <option value="tanpa_member" selected>Tanpa Member</option> <!-- Default "Tanpa Member" --> --}}
+                    <option value="" selected>(Without Member)</option> <!-- Default kosong untuk transaksi tanpa member -->
                     @foreach($customer as $customer)
                         <option value="{{ $customer->id_customer }}">{{ $customer->nama_customer }}</option>
                     @endforeach
@@ -102,7 +120,7 @@
                     </div>
                     <div style="width: 70px; margin-left: 8px;">
                         <label for="product[0][quantity]" class="form-label">Quantity</label>
-                        <input type="number" name="product[0][quantity]" class="form-control quantity-input" value="0" min="0" onchange="updateTotalPrice()">
+                        <input type="number" name="product[0][quantity]" class="form-control quantity-input" value="1" min="0" onchange="updateTotalPrice(); checkQuantity(this)">
                     </div>
                     <button type="button" class="btn btn-link text-danger remove-btn" onclick="removeProduct(this)" disabled>Remove</button>
                 </div>
@@ -118,6 +136,9 @@
             <div class="mb-3">
                 <label for="bayar" class="form-label">Bayar</label>
                 <input type="number" class="form-control no-spinner" id="bayar" name="bayar" required>
+                {{-- @error('bayar')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror --}}
             </div>
  
             <div class="mb-3">
@@ -131,12 +152,58 @@
             </div>
         </form>
     </div>
+
+     <!-- Modal for error alert -->
+     <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">
+                        <i class="fas fa-exclamation-triangle" style="color: #D32F2F;"></i> Warning
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
  
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(document).ready(function() {
-        $('.select2').select2();
+        $('.select2').select2({
+            width: '100%' // Pastikan lebar menyesuaikan
+        });
+         // Atur tinggi select2 melalui CSS setelah inisialisasi
+        $('.select2-container .select2-selection--single').css({
+            height: '2.5rem', // Sesuaikan tinggi di sini
+            display: 'flex',
+            'align-items': 'center'
+        });
+        // Turunkan posisi simbol dropdown
+        $('.select2-container .select2-selection--single .select2-selection__arrow').css({
+            'margin-top': '5px' // Sesuaikan nilai ini untuk menurunkan simbol
+        });
+    });
+
+    // Handle form submission and validation for "bayar" input
+    $("form").on("submit", function(event) {
+            let bayar = parseFloat($('#bayar').val());
+            let totalHarga = parseFloat($('#total_harga').val());
+
+            if (bayar < totalHarga) {
+                event.preventDefault(); // Prevent form submission
+                $('#errorMessage').text('Jumlah bayar tidak boleh kurang dari total harga!');
+                $('#errorModal').modal('show'); // Show the error modal
+            }
     });
  
     let productIndex = 1;
@@ -158,7 +225,7 @@
             </div>
             <div style="width: 70px; margin-left: 8px;">
                 <label for="product[${productIndex}][quantity]" class="form-label">Quantity</label>
-                <input type="number" name="product[${productIndex}][quantity]" class="form-control quantity-input" value="0" min="0" onchange="updateTotalPrice()">
+                <input type="number" name="product[${productIndex}][quantity]" class="form-control quantity-input" value="1" min="0" onchange="updateTotalPrice(); checkQuantity(this)">
             </div>
             <button type="button" class="btn btn-link text-danger remove-btn" onclick="removeProduct(this)">Remove</button>
         `;
@@ -185,6 +252,16 @@
             const removeButton = product.querySelector('.remove-btn');
             removeButton.disabled = products.length <= 1;
         });
+    }
+
+    // Fungsi untuk memeriksa quantity dan menghapus produk jika quantity 0
+    function checkQuantity(inputElement) {
+        const quantity = parseInt(inputElement.value) || 0;
+        if (quantity === 0) {
+            removeProduct(inputElement.closest('.product-item').querySelector('.remove-btn'));
+        } else {
+            updateTotalPrice();
+        }
     }
  
     // Hitung total harga

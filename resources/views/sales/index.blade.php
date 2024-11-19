@@ -129,7 +129,10 @@
                 <tr>
                     <td>{{ $Sales->id_nota }}</td>
                     <td>{{ \Carbon\Carbon::parse($Sales->created_at)->format('d F Y') }}</td>
-                    <td class="text-muted">{{ $Sales->customer->nama_customer }}</td>
+                    {{-- <td class="text-muted">{{ $Sales->customer->nama_customer }}</td> --}}
+                    <td class="text-muted">
+                        {{ $Sales->customer ? $Sales->customer->nama_customer : '(Without Member)' }}
+                    </td> 
                     <td class="text-muted">{{ $Sales->pengguna->nama_pengguna }}</td>
                     {{-- <td>{{ $Sales->quantity }}</td> --}}
                     <td>{{ number_format($Sales->total_harga, 2, ',', '.') }}</td>

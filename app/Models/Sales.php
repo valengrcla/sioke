@@ -12,7 +12,10 @@ class Sales extends Model
 {
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'id_customer');
+        // return $this->belongsTo(Customer::class, 'id_customer');
+        return $this->belongsTo(Customer::class, 'id_customer', 'id_customer')->withDefault([
+            'nama_customer' => '(Without Member)', // Default value jika customer NULL
+        ]);
     }
  
     public function pengguna()

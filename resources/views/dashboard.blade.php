@@ -176,7 +176,7 @@
                 <ul class="sales-list">
                     @foreach($lastSales as $sales)
                         <li class="sale-item">
-                            <img src="{{ asset('images/customer/' . $sales->customer->customer_img) }}" alt="{{ $sales->customer->nama_customer }}" onerror="this.src='default-profile.png'">
+                            <img src="{{ asset('images/customer/' . $sales->customer->customer_img) }}" alt="{{ $sales->customer->nama_customer }}" onerror="this.src='{{ asset('images/default-profile.png') }}'">
                             <p>{{ $sales->customer->nama_customer }}<br><span>{{ $sales->customer->email_customer }}</span><br>Rp {{ number_format($sales->total_harga, 2, ',', '.') }}</p>
                         </li>
                     @endforeach
