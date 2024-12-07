@@ -22,7 +22,7 @@ class C_Poin extends Controller
                          ->orWhere('aktivitas', 'like', "%{$search}%");
         })
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(10); 
         
         return view("poin.index", compact('poin'));
     }

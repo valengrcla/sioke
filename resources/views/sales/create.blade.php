@@ -19,29 +19,24 @@
             padding: 5px;
             margin-bottom: 8px;
         }
-       
         .form-control {
             background-color: white;
             border: 1px solid #ccc;
             padding: 0.375rem 0.75rem;
         }
- 
         .form-label {
             color: #000000;
             margin-bottom: 2px;
         }
-       
-        .btn-secondary, .btn-primary {
-            background-color: #FFD54F;
-            color: #000000;
+        .btn-secondary {
+            background-color: #E63946;
+            color: #ffffff;
             border: none;
         }
- 
-        .btn-secondary:hover, .btn-primary:hover {
-            background-color: #DEF9C4;
-            color: #333;
+        .btn-secondary:hover {
+            background-color: #C5283D;
+            color: #ffffff;
         }
- 
         #add-product-button {
             margin-top: -10px;
             margin-left: 5px;
@@ -52,26 +47,33 @@
             -webkit-appearance: none;
             margin: 0;
         }
- 
         .no-spinner {
-            -moz-appearance: textfield; /* Untuk Firefox */
+            -moz-appearance: textfield; 
         }
-        
         .modal-dialog {
-            position: fixed; /* Pastikan modal tetap di tempat meskipun halaman discroll */
-            top: 30%; /* Atur posisi modal ke atas sedikit (sesuaikan nilai ini) */
+            position: fixed; 
+            top: 30%; 
             left: 40%;
-            transform: translateX(-50%); /* Menjaga modal tetap terpusat secara horizontal */
+            transform: translateX(-50%); 
             display: flex;
             align-items: center;
             justify-content: center;
             height: auto;
         }
-
         .modal-content {
-            margin-top: 0; /* Adjust this value to shift the modal down */
+            margin-top: 0; 
         }
-        
+        .select2-container .select2-selection--single {
+        height: 2.5rem; /* Pastikan tinggi sama */
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 0.375rem 0.75rem;
+        background-color: white;
+    }
+    .select2-container .select2-selection__arrow {
+        margin-top: 0; /* Pastikan panah berada di tengah */
+    }   
     </style>
 </head>
 <body>
@@ -87,20 +89,14 @@
         <form action="{{ route('sales.store') }}" method="POST" class="border p-4 rounded" style="background-color: #9CA986; min-height: 550px; position: relative; padding-bottom: 150px;">
             @csrf
             <div class="mb-3">
-                <label for="id_pengguna" class="form-label">Choose Pengguna</label>
-                <select id="id_pengguna" name="id_pengguna" class="form-control select2" required>
-                    <option value="" disabled selected>Select a Pengguna</option>
-                    @foreach($pengguna as $pengguna)
-                        <option value="{{ $pengguna->id_pengguna }}">{{ $pengguna->nama_pengguna }}</option>
-                    @endforeach
-                </select>
+                <label for="id_pengguna" class="form-label">Pengguna</label>
+                <input type="hidden" id="id_pengguna" name="id_pengguna" value="{{ Auth::user()->id_pengguna }}">
+                <input type="text" class="form-control" value="{{ Auth::user()->nama_pengguna }}"  readonly>
             </div>
             <div class="mb-3">
                 <label for="id_customer" class="form-label">Choose Customer</label>
-                <select id="id_customer" name="id_customer" class="form-control select2">
-                    {{-- <option value="" disabled selected>Select a Customer</option> --}}
-                    {{-- <option value="tanpa_member" selected>Tanpa Member</option> <!-- Default "Tanpa Member" --> --}}
-                    <option value="" selected>(Without Member)</option> <!-- Default kosong untuk transaksi tanpa member -->
+                <select id="id_customer" name="id_customer" class="form-control select2" value="{{ old('id_customer') }}">
+                    <option value="" selected>(Without Member)</option> 
                     @foreach($customer as $customer)
                         <option value="{{ $customer->id_customer }}">{{ $customer->nama_customer }}</option>
                     @endforeach
@@ -111,7 +107,7 @@
                 <div class="mb-3 d-flex align-items-center product-item">
                     <div style="flex: 1;">
                         <label for="product[0][id_product]" class="form-label">Choose Product</label>
-                        <select name="product[0][id_product]" class="form-control product-select" required onchange="updateTotalPrice()">
+                        <select name="product[0][id_product]" class="form-control product-select" value="{{ old('id_product') }}" required onchange="updateTotalPrice()">
                             <option value="" disabled selected>Select a Product</option>
                             @foreach($product as $Product)
                                 <option value="{{ $Product->id_product }}" data-price="{{ $Product->harga_product }}">{{ $Product->nama_product }}</option>
@@ -120,7 +116,7 @@
                     </div>
                     <div style="width: 70px; margin-left: 8px;">
                         <label for="product[0][quantity]" class="form-label">Quantity</label>
-                        <input type="number" name="product[0][quantity]" class="form-control quantity-input" value="0" min="0" onchange="checkQuantity(this)">
+                        <input type="number" name="product[0][quantity]" class="form-control quantity-input" value="{{ old('quantity') }}" value="0" min="0" onchange="checkQuantity(this)">
                     </div>
                     <button type="button" class="btn btn-link text-danger remove-btn" onclick="removeProduct(this)" disabled>Remove</button>
                 </div>
@@ -129,31 +125,27 @@
             <button type="button" class="btn btn-link" id="add-product-button" onclick="addProduct()">Add Product</button>
  
             <div class="mb-3">
-                <label for="total_harga" class="form-label">Total Harga</label>
+                <label for="total_harga" class="form-label">Total Price</label>
                 <input type="text" class="form-control" id="total_harga_display" readonly>
                 <input type="hidden" id="total_harga" name="total_harga">
             </div>
             <div class="mb-3">
-                <label for="bayar" class="form-label">Bayar</label>
+                <label for="bayar" class="form-label">Pay</label>
                 <input type="number" class="form-control no-spinner" id="bayar" name="bayar" required>
-                {{-- @error('bayar')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror --}}
             </div>
  
             <div class="mb-3">
-                <label for="total_kembali" class="form-label">Kembalian</label>
+                <label for="total_kembali" class="form-label">Change</label>
                 <input type="text" class="form-control" id="total_kembali" readonly>
             </div>
  
             <div class="d-flex justify-content-between">
                 <a href="{{ route('sales.index') }}" class="btn btn-secondary">Cancel</a>
-                <button type="submit" class="btn btn-primary">Create Sales</button>
+                <button type="submit" class="btn btn-primary">Pay</button>
             </div>
         </form>
     </div>
 
-     <!-- Modal for error alert -->
      <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -173,7 +165,6 @@
         </div>
     </div>
 
-    <!-- Modal for product warning -->
     <div class="modal fade" id="productErrorModal" tabindex="-1" aria-labelledby="productErrorModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -200,35 +191,57 @@
 
     <script>
         $(document).ready(function() {
-        $('.select2').select2({
-            width: '100%' // Pastikan lebar menyesuaikan
-        });
-         // Atur tinggi select2 melalui CSS setelah inisialisasi
-        $('.select2-container .select2-selection--single').css({
-            height: '2.5rem', // Sesuaikan tinggi di sini
-            display: 'flex',
-            'align-items': 'center'
-        });
-        // Turunkan posisi simbol dropdown
-        $('.select2-container .select2-selection--single .select2-selection__arrow').css({
-            'margin-top': '5px' // Sesuaikan nilai ini untuk menurunkan simbol
-        });
-    });
+            $('.select2').select2({
+                width: '100%' 
+            });
 
-    // Handle form submission and validation for "bayar" input
-    $("form").on("submit", function(event) {
-            let bayar = parseFloat($('#bayar').val());
-            let totalHarga = parseFloat($('#total_harga').val());
+            $('.product-select').select2({
+                width: '100%' 
+            });
 
-            if (bayar < totalHarga) {
-                event.preventDefault(); // Prevent form submission
-                $('#errorMessage').text('Jumlah bayar tidak boleh kurang dari total harga!');
-                $('#errorModal').modal('show'); // Show the error modal
-            }
-    });
+            $('.select2-container .select2-selection--single').css({
+                height: '2.5rem', 
+                display: 'flex',
+                'align-items': 'center'
+            });
+
+            $('.select2-container .select2-selection--single .select2-selection__arrow').css({
+                'margin-top': '5px' 
+            });
+        });
+
+        $("form").on("submit", function(event) {
+                let bayar = parseFloat($('#bayar').val());
+                let totalHarga = parseFloat($('#total_harga').val());
+
+                if (bayar < totalHarga) {
+                    event.preventDefault(); 
+                    $('#errorMessage').text('Payment cannot be less than the total price!');
+                    $('#errorModal').modal('show'); 
+                }
+        });
  
     let productIndex = 1;
  
+    function initializeSelect2() {
+        $('.product-select').select2({
+            width: '100%' // Pastikan lebar penuh
+        });
+
+        // Pastikan Select2 memiliki gaya yang sama
+        $('.select2-container .select2-selection--single').css({
+            height: '2.5rem',
+            display: 'flex',
+            'align-items': 'center',
+            'padding-left': '10px', // Tambahkan padding jika diperlukan
+            'border-radius': '5px'
+        });
+
+        $('.select2-container .select2-selection__arrow').css({
+            'margin-top': '0'
+        });
+    }
+
     // Tambahkan produk baru
     function addProduct() {
         const section = document.getElementById('product-section');
@@ -252,8 +265,10 @@
         `;
         section.appendChild(newProduct);
         productIndex++;
- 
-        // Perbarui status tombol Remove
+
+        // Panggil initializeSelect2 untuk memastikan gaya tetap konsisten
+        initializeSelect2();
+
         updateRemoveButtons();
     }
  
@@ -283,7 +298,6 @@
             updateTotalPrice();
             updateRemoveButtons();
         } else {
-            // alert("At least one product must be selected.");
             $('#productErrorModal').modal('show');
             const lastProductItem = productItems[0];
             const quantityInput = lastProductItem.querySelector('.quantity-input');
@@ -301,7 +315,6 @@
         });
     }
 
-    
     // Hitung total harga
     function updateTotalPrice() {
         let totalPrice = 0;
@@ -329,21 +342,31 @@
  
         document.getElementById('total_harga_display').value = totalPrice.toFixed(2);
         document.getElementById('total_harga').value = totalPrice;
+
+        updateKembalian();
     }
- 
-    document.getElementById('bayar').addEventListener('input', function() {
-            const totalHarga = parseFloat(document.getElementById('total_harga').value) || 0;
-            const bayar = parseFloat(this.value) || 0;
-           
-            const totalKembali = bayar - totalHarga;
-           
-            // Tampilkan total kembali
-            document.getElementById('total_kembali').value = totalKembali.toFixed(2);
-        });
- 
+
+    function updateKembalian() {
+        const totalHarga = parseFloat(document.getElementById('total_harga').value) || 0;
+        const bayar = parseFloat(document.getElementById('bayar').value) || 0;
+
+        if (isNaN(bayar) || bayar === 0) {
+        document.getElementById('total_kembali').value = '';
+        } else {
+        const totalKembali = bayar - totalHarga;
+
+        // Tampilkan total kembali
+        document.getElementById('total_kembali').value = totalKembali.toFixed(2);
+        }
+    }
+
+    // Event listener untuk input pembayaran
+    document.getElementById('bayar').addEventListener('input', updateKembalian);
+
     // Pastikan kondisi awal saat halaman dimuat
     document.addEventListener('DOMContentLoaded', function () {
         updateRemoveButtons();
+        updateKembalian(); 
     });
     </script>
 </body>

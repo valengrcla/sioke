@@ -12,31 +12,30 @@
         body {
             font-family: 'Lusitana', serif;
         }
+
         .mb-3 {
             background-color: #9CA986;
             border-radius: 5px;
         }
-        
-        /* Menjaga input tetap putih dan border bersih */
+
         .form-control {
             background-color: white;
             border: 1px solid #ccc;
         }
 
-        /* Mengubah teks label menjadi putih agar kontras */
         .form-label {
             color: #000000;
         }
-        .btn-secondary, .btn-primary {
-            background-color: #FFD54F;
-            color: #000000; /* Dark green text color for contrast */
+
+        .btn-secondary {
+            background-color: #E63946;
+            color: #ffffff; 
             border: none;
         }
 
-        /* Hover effect for buttons */
-        .btn-secondary:hover, .btn-primary:hover {
-            background-color: #DEF9C4; /* Light green hover effect */
-            color: #333; /* Darker text color on hover */
+        .btn-secondary:hover {
+            background-color: #C5283D; 
+            color: #ffffff; 
         }
     </style>
 </head>
@@ -55,11 +54,11 @@
             background-color: #fff;
             transition: top 0.3s;
         }
-    
+
         .navbar-nav .nav-link {
             padding: 0.2rem 0.5rem;
         }
-    
+        
         .navbar img {
             width: 25px;
             height: 25px;
@@ -94,14 +93,14 @@
         
             <!-- Nama Pengguna -->
             <div class="mb-3">
-                <label for="nama_pengguna" class="form-label">Nama</label>
-                <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" placeholder="Masukkan Nama Pengguna" value="{{ $pengguna->nama_pengguna }}" required>
+                <label for="nama_pengguna" class="form-label">Name</label>
+                <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" placeholder="Enter Name" value="{{ $pengguna->nama_pengguna }}" required>
             </div>
         
             <!-- Username -->
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan Username" value="{{ $pengguna->username }}" required>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" value="{{ $pengguna->username }}" required>
                 @if ($errors->has('username'))
                     <div class="text-danger">{{ $errors->first('username') }}</div>
                 @endif
@@ -110,8 +109,8 @@
             <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password" minlength="8">
-                <small class="form-text text-muted">Kosongkan jika tidak ingin mengubah password</small>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" minlength="8">
+                <small class="form-text text-muted">Leave empty if you don't want to change the password</small>
             </div>
         
             <!-- Upload Image -->
@@ -125,9 +124,9 @@
         
             <!-- Role Selection as Dropdown -->
             <div class="mb-3">
-                <label for="id_role" class="form-label">Pilih Role</label>
+                <label for="id_role" class="form-label">Role</label>
                 <select class="form-select" id="id_role" name="id_role" required>
-                    <option disabled>Pilih Role</option>
+                    <option disabled>Choose Role</option>
                     @foreach ($role as $roles)
                         <option value="{{ $roles->id_role }}" 
                             @if ($pengguna->id_role == $roles->id_role) selected @endif>

@@ -30,15 +30,15 @@
             margin-bottom: 2px;
         }
         
-        .btn-secondary, .btn-primary {
-            background-color: #FFD54F;
-            color: #000000;
+        .btn-secondary {
+            background-color: #E63946;
+            color: #ffffff;
             border: none;
         }
 
-        .btn-secondary:hover, .btn-primary:hover {
-            background-color: #DEF9C4;
-            color: #333;
+        .btn-secondary:hover {
+            background-color: #C5283D;
+            color: #ffffff;
         }
 
         #add-product-button {
@@ -92,15 +92,15 @@
         });
     </script>
 
-    <div class="container mt-5 mb-5" style="margin-left: 280px; max-width: 900px; min-height: 700px;">
-        <h2 class="mb-4">Penukaran Poin</h2>
+    <div class="container mt-5 mb-5" style="margin-left: 280px; max-width: 900px;">
+        <h2 class="mb-4">Redeem Points</h2>
         
-        <form action="{{ route('poin.store') }}" method="POST" class="border p-4 rounded" style="background-color: #9CA986; min-height: 550px; position: relative; padding-bottom: 150px;">
+        <form action="{{ route('poin.store') }}" method="POST" class="border p-4 rounded" style="background-color: #9CA986; position: relative;">
             @csrf
             <div class="mb-3">
                 <label for="id_customer" class="form-label">Choose Customer</label>
                 <select id="id_customer" name="id_customer" class="form-control customer" required onchange="updatePoinCustomer()">
-                    <option value="" disabled selected>Pilih Customer</option>
+                    <option value="" disabled selected>Choose Customer</option>
                     @foreach ($customer as $customer)
                     <option value="{{ $customer->id_customer }}" data-poin="{{ $customer->totalpoin_customer }}">
                         {{ $customer->nama_customer }}
@@ -114,7 +114,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="jumlah_poin" class="form-label">Jumlah Poin Customer</label>
+                <label for="jumlah_poin" class="form-label">Customer Points</label>
                 <input type="number" name="jumlah_poin" id="jumlah_poin" class="form-control" value="0" readonly>
             </div>
 
@@ -131,29 +131,46 @@
                     </div>
                     <div style="width: 70px; margin-left: 8px;">
                         <label for="product[0][quantity]" class="form-label">Quantity</label>
-                        <input type="number" name="product[0][quantity]" class="form-control quantity" min="1" required value="1" onchange="calculateTotalPoin()">
+                        <input type="number" name="product[0][quantity]" class="form-control quantity" min="1" required value="0" onchange="calculateTotalPoin()">
                     </div>
                 </div>
             </div>
 
-            <button type="button" class="btn btn-link" id="add-product-button" onclick="addProduct()">Add Product</button>
-
             <div class="mb-3">
-                <label for="total_poin" class="form-label">Total Poin</label>
+                <label for="total_poin" class="form-label">Total Points</label>
                 <input type="number" class="form-control" id="total_poin" name="total_poin" value="0" readonly>
             </div>
 
             <div class="d-flex justify-content-between">
-                <a href="{{ route('poin.index') }}" class="btn btn-secondary">Batal</a>
-                <button type="submit" class="btn btn-primary">Tukar Poin</button>
+                <a href="{{ route('poin.index') }}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Redeem Points</button>
             </div>
         </form>
     </div>
 
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">
+                        <i class="fas fa-exclamation-triangle" style="color: #D32F2F;"></i> Warning
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="errorMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         let productIndex = 1;
-
-        
 
         function updatePoinCustomer() {
             const customerSelect = document.getElementById('id_customer');
@@ -171,6 +188,16 @@
                 const selectProduct = product.querySelector('select[name$="[id_product]"]');
                 const quantityInput = product.querySelector('input[name$="[quantity]"]');
 
+                 // Jika produk sudah dipilih, pastikan quantity minimal 1
+                if (selectProduct.value) {
+                    if (quantityInput.value === "0" || quantityInput.value === "") {
+                        quantityInput.value = 1;
+                    }
+                } else {
+                    // Jika belum ada produk, pastikan quantity tetap 0
+                    quantityInput.value = 0;
+                }
+
                 // Pastikan elemen dan data-price ada
                 if (!selectProduct || !quantityInput) return;
 
@@ -184,6 +211,18 @@
             });
             document.getElementById('total_poin').value = totalPoin;
         }
+
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const jumlahPoin = parseInt(document.getElementById('jumlah_poin').value) || 0;
+            const totalPoin = parseInt(document.getElementById('total_poin').value) || 0;
+ 
+            if (jumlahPoin < totalPoin) {
+                event.preventDefault();
+                document.getElementById('errorMessage').textContent = 'Jumlah Poin Tidak Mencukupi!';
+                new bootstrap.Modal(document.getElementById('errorModal')).show();
+            }
+        });
+
     </script>
 </body>
 </html>

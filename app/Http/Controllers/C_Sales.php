@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Sales;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
  
 class C_Sales extends Controller
 {
@@ -27,8 +28,10 @@ class C_Sales extends Controller
                             $query->where('nama_pengguna', 'like', '%' . $search . '%');
                         });
         })
+        ->whereMonth('created_at', date('m')) 
+        ->whereYear('created_at', date('Y')) 
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(9); 
  
         return view("sales.index", compact('sales'));
     }
@@ -43,19 +46,18 @@ class C_Sales extends Controller
  
     public function create()
     {
-        $customer = Customer::all(); // Retrieve all customers
-        $pengguna = Pengguna::all(); // Retrieve all users (or staff)
-        $product = Product::all();   // Retrieve all products
+        $customer = Customer::all(); 
+        $pengguna = Pengguna::all(); 
+        $product = Product::all();   
  
         return view("sales.create", compact('customer', 'pengguna', 'product'));
     }
  
     public function store(Request $request)
     {
-        // Validate the input data
         $request->validate([
             'id_pengguna' => 'required|exists:pengguna,id_pengguna',
-            'id_customer' => 'nullable|exists:customer,id_customer', // Nullable untuk customer
+            'id_customer' => 'nullable|exists:customer,id_customer', 
             'product' => 'required|array',
             'product.*.id_product' => 'required|exists:product,id_product',
             'product.*.quantity' => 'required|integer|min:1',
@@ -66,22 +68,25 @@ class C_Sales extends Controller
         $total_pembayaran = $request->bayar;
         $total_kembali = $total_pembayaran - $request->total_harga;
 
+        $currentUser = Auth::user();
+        if (!$currentUser) {
+            return back()->with('error', 'Anda harus login untuk melakukan transaksi.');
+        }
+
         // Ambil id_customer (NULL jika tidak ada)
         $customerId = $request->id_customer;
         // Tetapkan gambar default untuk "Without Member"
         $customerImg = 'default-profile.png'; // Default image
         if (!is_null($customerId)) {
             $customer = Customer::find($customerId);
-            $customerImg = $customer->customer_img ?? $customerImg; // Gunakan gambar customer jika ada
+            $customerImg = $customer->customer_img ?? $customerImg; 
         }
  
         $sales = Sales::create([
-            // 'id_nota' => $id_nota,
             'id_pengguna' => $request->id_pengguna,
-            // 'id_customer' => $request->id_customer,
             'id_customer' => $customerId,
             'total_harga' => $request->total_harga,
-            'total_pembayaran' => $total_pembayaran,  // Isi dengan nilai bayar
+            'total_pembayaran' => $total_pembayaran,  
             'total_kembali' => $total_kembali,
         ]);
         $sales->refresh();

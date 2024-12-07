@@ -10,7 +10,7 @@
             <li><a href="{{ route('customer.index') }}" class="{{ request()->is('customer*') ? 'active' : '' }}"><i class="fas fa-user" style="margin-right: 10px;"></i>Customer</a></li>
             <li><a href="{{ route('product.index') }}" class="{{ request()->is('product*') ? 'active' : '' }} {{ session('user') && session('user')->role->nama_role !== 'Pegawai' ? '' : 'd-none' }}"><i class="fas fa-coffee" style="margin-right: 10px;"></i>Product</a></li>
             <li><a href="{{ route('sales.index') }}" class="{{ request()->is('sales*') ? 'active' : '' }}"><i class="fas fa-shopping-cart" style="margin-right: 10px;"></i>Sales</a></li>
-            <li><a href="{{ route('poin.index') }}" class="{{ request()->is('poin*') ? 'active' : '' }}"><i class="fas fa-coins" style="margin-right: 10px;"></i>Poin</a></li>
+            <li><a href="{{ route('poin.index') }}" class="{{ request()->is('poin*') ? 'active' : '' }}"><i class="fas fa-coins" style="margin-right: 10px;"></i>Point</a></li>
             <li><a href="{{ route('report.index') }}" class="{{ request()->is('report*') ? 'active' : '' }} {{ session('user') && session('user')->role->nama_role !== 'Pegawai' ? '' : 'd-none' }}"><i class="fas fa-file-alt" style="margin-right: 10px;"></i>Report</a></li>
         </ul>
         

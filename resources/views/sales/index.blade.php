@@ -15,17 +15,20 @@
             background-color: #ECDFCC;
             margin: 0;
             overflow-x: hidden;
+            overflow-y: hidden;
         }
         .container {
             margin-left: 280px;
             padding: 20px;
             width: calc(100% - 280px);
             overflow-x: hidden;
+            overflow-y: hidden; 
+        height: 100vh;
         }
         .btn-create {
             background-color: #697565;
             color: white;
-            font-size: 0.9rem; /* Reduced font size */
+            font-size: 0.9rem; 
             padding: 0.4rem 0.6rem;
         }
         .btn-create:hover {
@@ -44,22 +47,17 @@
 </div>
 
 <style>
-    /* Reduce the size of the navbar */
     .navbar {
         padding: 0.3rem 0.5rem;
-        font-size: 1rem; /* Adjust font size for a smaller look */
+        font-size: 1rem; 
         box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
         border-radius: 0 0 0.5rem 0.5rem;
-        background-color: #fff; /* Add a background color */
-        transition: top 0.3s; /* Transition for smooth hiding */
+        background-color: #fff; 
+        transition: top 0.3s; 
     }
-
-    /* Adjust navbar items to fit the smaller size */
     .navbar-nav .nav-link {
         padding: 0.2rem 0.5rem;
     }
-
-    /* Adjust the profile picture size */
     .navbar img {
         width: 25px;
         height: 25px;
@@ -68,27 +66,24 @@
 </style>
 
 <script>
-    let lastScrollTop = 0; // Variable to keep track of last scroll position
-    const navbar = document.getElementById('navbar'); // Get the navbar element
+    let lastScrollTop = 0; 
+    const navbar = document.getElementById('navbar'); 
 
     window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop; // Current scroll position
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
 
         if (scrollTop > lastScrollTop) {
-            // Scrolling down
-            navbar.style.top = "-60px"; // Hide the navbar (adjust -60px to the height of your navbar)
+            navbar.style.top = "-60px"; 
         } else {
-            // Scrolling up
-            navbar.style.top = "0"; // Show the navbar
+            navbar.style.top = "0"; 
         }
-        lastScrollTop = scrollTop; // Update last scroll position
+        lastScrollTop = scrollTop; 
     });
 </script>
 <style>
     .mt-n1 {
         margin-top: 2rem;
     }
-    /* Tambahkan kelas lain sesuai kebutuhan */
 </style>
 <div class="container mt-n1">
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
@@ -117,11 +112,11 @@
         <thead>
             <tr>
                 <th>ID Nota</th>
-                <th>Tanggal</th>
+                <th>Date</th>
                 <th>Customer</th>
-                <th>Pengguna</th>
-                <th>Total Harga</th>
-                <th>Aksi</th>
+                <th>User</th>
+                <th>Total Price</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -129,12 +124,10 @@
                 <tr>
                     <td>{{ $Sales->id_nota }}</td>
                     <td>{{ \Carbon\Carbon::parse($Sales->created_at)->format('d F Y') }}</td>
-                    {{-- <td class="text-muted">{{ $Sales->customer->nama_customer }}</td> --}}
-                    <td class="text-muted">
+                    <td class="color: black;">
                         {{ $Sales->customer ? $Sales->customer->nama_customer : '(Without Member)' }}
                     </td> 
-                    <td class="text-muted">{{ $Sales->pengguna->nama_pengguna }}</td>
-                    {{-- <td>{{ $Sales->quantity }}</td> --}}
+                    <td class="color: black;">{{ $Sales->pengguna->nama_pengguna }}</td>
                     <td>{{ number_format($Sales->total_harga, 2, ',', '.') }}</td>
                     <td>
                         <style>
@@ -159,6 +152,9 @@
             @endforelse
         </tbody>
     </table>
+    <div class="d-flex justify-content-center mt-4">
+        {{ $sales->links('pagination::bootstrap-5') }}
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -168,7 +164,7 @@
     @if(session('success'))
         Swal.fire({
             icon: "success",
-            title: "BERHASIL",
+            title: "SUCCESS",
             text: "{{ session('success') }}",
             showConfirmButton: false,
             timer: 2000
@@ -176,7 +172,7 @@
     @elseif(session('error'))
         Swal.fire({
             icon: "error",
-            title: "GAGAL!",
+            title: "FAILED!",
             text: "{{ session('error') }}",
             showConfirmButton: false,
             timer: 2000

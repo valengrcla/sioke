@@ -27,7 +27,7 @@ class C_Auth extends Controller
         // Jika user ada, lakukan pengecekan password
         if (!Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
             // Jika password salah
-            return back()->with('error', 'Username/Password salah.')->withInput();
+            return back()->with('error', 'Incorrect username or password')->withInput();
         }
         $data = Auth::user();
         session()->put('user', $data);

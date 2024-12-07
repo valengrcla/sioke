@@ -23,14 +23,14 @@
         .form-label {
             color: #000000;
         }
-        .btn-secondary, .btn-primary {
-            background-color: #FFD54F;
-            color: #000000;
+        .btn-secondary {
+            background-color: #E63946;
+            color: #ffffff;
             border: none;
         }
-        .btn-secondary:hover, .btn-primary:hover {
-            background-color: #DEF9C4;
-            color: #333;
+        .btn-secondary:hover {
+            background-color: #C5283D;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -90,7 +90,7 @@
        
             <!-- Nama Customer -->
             <div class="mb-3">
-                <label for="nama_customer" class="form-label">Nama</label>
+                <label for="nama_customer" class="form-label">Customer Name</label>
                 <input type="text" class="form-control" id="nama_customer" name="nama_customer" placeholder="Enter Customer Name" value="{{ $customer->nama_customer }}" required>
             </div>
        
@@ -99,16 +99,16 @@
                 <label for="email_customer" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email_customer" name="email_customer" placeholder="Enter Email" value="{{ $customer->email_customer }}" required>
                 @if ($errors->has('email_customer'))
-                    <div class="text-danger"> <strong> {{ $errors->first('email_customer') }}</strong></div>
+                    <div class="text-danger"> {{ $errors->first('email_customer') }}</div>
                 @endif
             </div>
        
             <!-- No HP -->
             <div class="mb-3">
-                <label for="nohp_customer" class="form-label">No HP</label>
+                <label for="nohp_customer" class="form-label">Phone Number</label>
                 <input type="text" class="form-control" id="nohp_customer" name="nohp_customer" placeholder="Enter Phone Number" value="{{ $customer->nohp_customer }}" required>
                 @if ($errors->has('nohp_customer'))
-                    <div class="text-danger"> <strong> {{ $errors->first('nohp_customer') }}</strong></div>
+                    <div class="text-danger"> {{ $errors->first('nohp_customer') }}</div>
                 @endif
             </div>
        

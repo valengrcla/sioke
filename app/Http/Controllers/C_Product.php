@@ -16,9 +16,10 @@ class C_Product extends Controller
             $product = Product:: where('nama_product', 'like', '%' . $search . '%')
                         ->orWhere('harga_product', 'like', '%' . $search . '%')
                         ->orderBy('created_at', 'desc')
+                        // ->paginate(8);
                         ->get();
         } else {
-            $product = Product::orderBy('created_at', 'desc')->get(); 
+            $product = Product::orderBy('created_at', 'desc')->get();
         }
 
         return view("product.index", compact('product'));
@@ -37,9 +38,9 @@ class C_Product extends Controller
             'harga_poinproduct' => 'required|numeric',
             'product_img' => 'nullable|image|mimes:jpeg,png,jpg|max:200',
         ], [
-            'nama_product.unique' => 'Nama produk sudah digunakan. Silakan pilih nama lain.',
-            'harga_product.numeric' => 'Harga harus dalam angka',
-            'harga_poinproduct.numeric' => 'Harga harus dalam angka',
+            'nama_product.unique' => 'Product name is already taken. Please choose another!',
+            'harga_product.numeric' => 'Price must be a number!',
+            'harga_poinproduct.numeric' => 'Price must be a number!',
         ]);
         $fotoPath = ''; // Default path jika tidak ada gambar di-upload
 
@@ -80,9 +81,9 @@ class C_Product extends Controller
             'harga_poinproduct' => 'required|numeric',
             'product_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
-            'nama_product.unique' => 'Nama produk sudah digunakan. Silakan pilih nama lain.',
-            'harga_product.numeric' => 'Harga harus dalam angka',
-            'harga_poinproduct.numeric' => 'Harga harus dalam angka',
+            'nama_product.unique' => 'Product name is already taken. Please choose another!',
+            'harga_product.numeric' => 'Price must be a number!',
+            'harga_poinproduct.numeric' => 'Price must be a number!',
         ]);
         $product = Product::findOrFail($id_product);
 

@@ -41,8 +41,8 @@ class C_Pengguna extends Controller
             'id_role' => 'required|exists:role,id_role', // Pastikan role ada di database
             'user_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
-            'username.unique' => 'Username sudah digunakan. Silakan pilih username lain.',
-            'id_role.required' => 'Silakan pilih role untuk pengguna.',
+            'username.unique' => 'Username is already taken. Please choose another!',
+            'id_role.required' => 'Please select a role for the user!',
         ]);
 
         $fotoPath = ''; // Default path jika tidak ada gambar di-upload
@@ -85,7 +85,7 @@ class C_Pengguna extends Controller
             'id_role' => 'required|exists:role,id_role', // Pastikan role ada di database
             'user_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
-            'username.unique' => 'Username sudah digunakan. Silakan pilih username lain.',
+            'username.unique' => 'Username is already taken. Please choose another!',
         ]);
         
         $pengguna = Pengguna::findOrFail($id_pengguna);

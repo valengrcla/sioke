@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Lusitana:wght@400;600&display=swap" rel="stylesheet">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Poin</title>
+    <title>Points</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -15,12 +15,14 @@
             background-color: #E8E8E8;
             margin: 0;
             overflow-x: hidden;
+            overflow-y: hidden;
         }
         .container {
             margin-left: 280px;
             padding: 20px;
             width: calc(100% - 280px);
             overflow-x: hidden;
+            overflow-y: hidden; /* Izinkan scroll internal jika diperlukan */
         }
         .btn-create {
             background-color: #697565;
@@ -90,7 +92,7 @@
         <h1 style = "margin-top: -75px">Poin</h1>
         <div>
             {{-- <button class="btn btn-create"><i class="fas fa-plus"></i> Penukaran</button> --}}
-            <a href="{{ route('poin.create') }}" class="btn btn-create"><i class="fas fa-plus"></i> Penukaran</a>
+            <a href="{{ route('poin.create') }}" class="btn btn-create"><i class="fas fa-plus"></i> Redeem Points</a>
         </div>
     </div>
 
@@ -112,9 +114,9 @@
         <thead>
             <tr>
                 <th>ID Poin</th>
-                <th>Tanggal</th>
-                <th>Nama Customer</th>
-                <th>Aktivitas</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Activity</th>
                 <th>Poin</th>
             </tr>
         </thead>
@@ -123,7 +125,7 @@
                 <tr>
                     <td>{{ $Poin->id_poin }}</td>
                     <td>{{ \Carbon\Carbon::parse($Poin->created_at)->format('d F Y') }}</td>
-                    <td class="text-muted">{{ $Poin->customer->nama_customer }}</td>
+                    <td class="color: black;">{{ $Poin->customer->nama_customer }}</td>
                     <td>{{ $Poin->aktivitas }}</td>
                     <td>{{ $Poin->poin }}</td>
                 </tr>
@@ -134,6 +136,9 @@
             @endforelse
         </tbody>
     </table>
+    <div class="d-flex justify-content-center mt-4">
+        {{ $poin->links('pagination::bootstrap-5') }}
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -143,7 +148,7 @@
     @if(session('success'))
         Swal.fire({
             icon: "success",
-            title: "BERHASIL",
+            title: "SUCCESS",
             text: "{{ session('success') }}",
             showConfirmButton: false,
             timer: 2000
@@ -151,7 +156,7 @@
     @elseif(session('error'))
         Swal.fire({
             icon: "error",
-            title: "GAGAL!",
+            title: "FAILED!",
             text: "{{ session('error') }}",
             showConfirmButton: false,
             timer: 2000

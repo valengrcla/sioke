@@ -104,12 +104,13 @@
         lastScrollTop = scrollTop;
     });
 </script>
+
 <style>
     .mt-n1 {
         margin-top: 2rem;
     }
-    /* Tambahkan kelas lain sesuai kebutuhan */
 </style>
+
 <div class="container mt-n1">
     <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
         <h1 style = "margin-top: -75px">Customer</h1>
@@ -133,7 +134,7 @@
                     <h5 class="mt-2 text-muted fw-bold" style="margin-bottom: 0;">{{ $Customer->nama_customer }}</h5>
                     <p class="text-muted" style="margin-top: 0; margin-bottom: 0;">{{ $Customer->email_customer }}</p>
                     <p class="text-start">{{ $Customer->nohp_customer }}</p>
-                    <p class="text-start">Total Poin: {{ $Customer->totalpoin_customer }}</p>
+                    <p class="text-start">Total Point: {{ $Customer->totalpoin_customer }}</p>
                     <p class="text-start">Date: {{ \Carbon\Carbon::parse($Customer->created_at)->format('d F Y') }}</p>
                     
                     <div class="d-flex justify-content-center mt-2">
@@ -143,7 +144,7 @@
                         <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('customer.delete', $Customer->id_customer) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger {{ session('user') && session('user')->role->nama_role === 'Owner' ? '' : 'd-none' }}">
+                            <button type="submit" class="btn btn-sm btn-danger delete-btn {{ session('user') && session('user')->role->nama_role === 'Owner' ? '' : 'd-none' }}">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>
@@ -162,10 +163,52 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); 
+
+            Swal.fire({
+                title: 'Are you sure to delete?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel',
+                width: '320px',  
+                heightAuto: false,  
+                customClass: {
+                    popup: 'small-popup' 
+                },
+                padding: '15px',  
+                backdrop: 'rgba(0, 0, 0, 0.4)',  
+                didOpen: () => {
+                    
+                    const title = Swal.getTitle();
+                    const icon = Swal.getIcon();
+                    const actions = Swal.getActions();
+
+                    title.style.fontSize = '1.3rem';  
+                    icon.style.width = '50px';  
+                    icon.style.height = '50px';  
+                    actions.querySelectorAll('button').forEach(button => {
+                        button.style.fontSize = '1rem';  
+                        button.style.padding = '5px 15px';  
+                    });
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = button.closest('form');
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+
+<script>
     @if(session('success'))
         Swal.fire({
             icon: "success",
-            title: "BERHASIL",
+            title: "SUCCESS",
             text: "{{ session('success') }}",
             showConfirmButton: false,
             timer: 2000
@@ -173,7 +216,7 @@
     @elseif(session('error'))
         Swal.fire({
             icon: "error",
-            title: "GAGAL!",
+            title: "FAILED!",
             text: "{{ session('error') }}",
             showConfirmButton: false,
             timer: 2000

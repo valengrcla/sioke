@@ -128,7 +128,7 @@
     <div class="login-container">
         <!-- Logo and title -->
         <div class="logo-title-container">
-            <h2>Selamat datang,<br> di SIOKE</h2>
+            <h2>Hi there!<br> Welcome to SIOKE</h2>
             <div class="logo-container">
                 <img src="images/logo.png" alt="Okene Logo"> 
             </div>

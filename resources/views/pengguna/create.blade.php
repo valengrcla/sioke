@@ -17,26 +17,23 @@
             border-radius: 5px;
         }
         
-        /* Menjaga input tetap putih dan border bersih */
         .form-control {
             background-color: white;
             border: 1px solid #ccc;
         }
 
-        /* Mengubah teks label menjadi putih agar kontras */
         .form-label {
             color: #000000;
         }
-        .btn-secondary, .btn-primary {
-            background-color: #FFD54F;
-            color: #000000; /* Dark green text color for contrast */
+        .btn-secondary {
+            background-color: #E63946;
+            color: #ffffff; 
             border: none;
         }
 
-        /* Hover effect for buttons */
-        .btn-secondary:hover, .btn-primary:hover {
-            background-color: #DEF9C4; /* Light green hover effect */
-            color: #333; /* Darker text color on hover */
+        .btn-secondary:hover {
+            background-color: #C5283D; 
+            color: #ffffff; 
         }
     </style>
 </head>
@@ -93,14 +90,14 @@
 
             <!-- Nama Pengguna -->
             <div class="mb-3">
-                <label for="nama_pengguna" class="form-label">Nama</label>
-                <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" placeholder="Masukkan Nama Pengguna" required>
+                <label for="nama_pengguna" class="form-label">Name</label>
+                <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" placeholder="Enter Name" required>
             </div>
 
             <!-- Username -->
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan Username" required>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
                 @if ($errors->has('username'))
                     <div class="text-danger">{{ $errors->first('username') }}</div>
                 @endif
@@ -109,7 +106,7 @@
             <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password" required minlength="8">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required minlength="8">
             </div>
 
             <!-- Upload Image -->
@@ -120,9 +117,9 @@
 
             <!-- Role Selection as Dropdown -->
             <div class="mb-3">
-                <label for="id_role" class="form-label">Pilih Role</label>
+                <label for="id_role" class="form-label">Role</label>
                 <select class="form-select" id="id_role" name="id_role" required>
-                    <option selected disabled>Pilih Role</option>
+                    <option selected disabled>Choose Role</option>
                     @foreach ($role as $roles)
                         <option value="{{ $roles->id_role }}">{{ $roles->nama_role }}</option>
                     @endforeach

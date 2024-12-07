@@ -34,16 +34,17 @@ class RoleMiddleware
             'Manajer' => [
                 'allowed_routes' => [ 
                     'dashboard',
-                    'customer.index', 'customer.create', 'customer.show', 'customer.edit', 
-                    'product.index', 'product.create', 'product.show', 'product.edit', 
+                    'customer.index', 'customer.create', 'customer.store', 'customer.edit', 'customer.update',
+                    'product.index', 'product.create', 'product.store', 'product.edit', 'product.update',
                     'sales.index', 'sales.create', 'sales.store', 'sales.detail',
                     'poin.index', 'poin.create', 'poin.store', 'logout',
+                    'report.index', 'report.view', 'report.export',
                 ],
             ],
             'Pegawai' => [
                 'allowed_routes' => [ 
                     'dashboard',
-                    'customer.index', 'customer.create', 'customer.show', 'customer.edit', 
+                    'customer.index', 'customer.create', 'customer.store', 'customer.edit', 'customer.update',
                     'sales.index', 'sales.create', 'sales.store', 'sales.detail',
                     'poin.index', 'poin.create', 'poin.store', 'logout',
                 ],

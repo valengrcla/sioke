@@ -16,32 +16,26 @@
             background-color: #9CA986;
             border-radius: 5px;
         }
-        
-        /* Menjaga input tetap putih dan border bersih */
         .form-control {
             background-color: white;
             border: 1px solid #ccc;
         }
-
-        /* Mengubah teks label menjadi putih agar kontras */
         .form-label {
             color: #000000;
         }
-        .btn-secondary, .btn-primary {
-            background-color: #FFD54F;
-            color: #000000; /* Dark green text color for contrast */
+        .btn-secondary {
+            background-color: #E63946;
+            color: #ffffff; 
             border: none;
         }
-
-        /* Hover effect for buttons */
-        .btn-secondary:hover, .btn-primary:hover {
-            background-color: #DEF9C4; /* Light green hover effect */
-            color: #333; /* Darker text color on hover */
+        .btn-secondary:hover {
+            background-color: #C5283D; 
+            color: #ffffff; 
         }
     </style>
 </head>
 <body>
-    @include('layouts.sidebar') <!-- Menyertakan sidebar -->
+    @include('layouts.sidebar') 
     <div id="navbar" style="position: fixed; top: 0; right: 0; z-index: 1000; width: auto;">
         @include('navbar')
     </div>
@@ -83,32 +77,29 @@
         });
     </script>
     
-    
-    <!-- Konten utama dengan margin kiri agar tidak tertindih sidebar -->
     <div class="container mt-5 mb-5" style="margin-left: 280px; max-width: 900px; min-height: 700px;">
         <h2 class="mb-4">Product/ Create Product</h2>
         
-        <!-- Formulir dengan posisi relatif dan padding bawah tambahan -->
         <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data" 
               class="border p-4 rounded" 
               style="background-color: #9CA986; min-height: 450px; position: relative; padding-bottom: 150px;">
             @csrf
             <div class="mb-3">
-                <label for="nama_product" class="form-label">Nama Product</label>
+                <label for="nama_product" class="form-label">Product Name</label>
                 <input type="text" class="form-control" id="nama_product" name="nama_product" placeholder="Enter Product Name" required>
                 @if ($errors->has('nama_product'))
                     <div class="text-danger">{{ $errors->first('nama_product') }}</div>
                 @endif
             </div>
             <div class="mb-3">
-                <label for="harga_product" class="form-label">Harga</label>
+                <label for="harga_product" class="form-label">Price</label>
                 <input type="text" class="form-control" id="harga_product" name="harga_product" placeholder="Enter Product Price" required>
                 @if ($errors->has('harga_product'))
                     <div class="text-danger">{{ $errors->first('harga_product') }}</div>
                 @endif
             </div>
             <div class="mb-3">
-                <label for="harga_poinproduct" class="form-label">Harga Poin</label>
+                <label for="harga_poinproduct" class="form-label">Point Price</label>
                 <input type="text" class="form-control" id="harga_poinproduct" name="harga_poinproduct" placeholder="Enter Product Price in Points" required >
                 @if ($errors->has('harga_poinproduct'))
                     <div class="text-danger">{{ $errors->first('harga_poinproduct') }}</div>
@@ -119,8 +110,6 @@
                 <input type="file" class="form-control" id="product_img" name="product_img" accept="image/*">
             </div>
             
-            
-            <!-- Menambahkan div absolute untuk menempatkan tombol di bagian bawah -->
             <div class="d-flex justify-content-between mt-4">
                 <a href="{{ route('product.index') }}" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Create Product</button>

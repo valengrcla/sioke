@@ -1,53 +1,39 @@
 <?php
-
+ 
 namespace App\Exports;
-
+ 
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-
-class ReportExport implements FromView, WithColumnWidths, WithStyles
+ 
+class ReportExport implements FromView, WithStyles
 {
     protected $report;
-
+ 
     public function __construct($report)
     {
         $this->report = $report;
     }
-
+ 
     public function view(): View
     {
         // Hitung total transaksi dengan menjumlahkan total_harga
         $totalTransaksi = $this->report->sum('total_harga');
-        
+       
         // Kirim data laporan dan total transaksi ke view
         return view('report.export', [
             'report' => $this->report,
-            'totalTransaksi' => $totalTransaksi, // Mengirim total transaksi ke view
+            'totalTransaksi' => $totalTransaksi,
         ]);
     }
-
+ 
     /**
      * Set custom column widths based on data length.
      *
      * @return array
      */
-    public function columnWidths(): array
-    {
-        return [
-            'A' => 15, // ID Nota
-            'B' => 20, // Tanggal Penjualan
-            'C' => 25, // Nama Customer
-            'D' => 30, // Menu
-            'E' => 15, // Total Quantity
-            'F' => 20, // Total Harga
-        ];
-    }
-
+ 
     /**
      * Apply styles for the worksheet.
      *
@@ -57,10 +43,26 @@ class ReportExport implements FromView, WithColumnWidths, WithStyles
     public function styles(Worksheet $sheet)
     {
         // Adjust the header row (bold)
-        $sheet->getStyle('A1:F1')->getFont()->setBold(true);
-
+        $sheet->getStyle('A1:H1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:H1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+        ->getStartColor()->setARGB('80C4E9');
+        
+        $columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        foreach ($columns as $col) {
+            $sheet->getStyle("$col:$col")
+                ->getAlignment()
+                ->setHorizontal('center')
+                ->setVertical('center');
+        }
+ 
+        $lastRow = $sheet->getHighestRow();
+        $sheet->getStyle("A1:H$lastRow")
+            ->getBorders()
+            ->getAllBorders()
+            ->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+ 
         // Set auto-size for columns (if desired)
-        foreach (range('A', 'F') as $col) {
+        foreach (range('A', 'H') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
     }

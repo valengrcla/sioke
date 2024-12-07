@@ -11,32 +11,32 @@
     <style>
         body {
             font-family: 'Lusitana', serif;
+            overflow-x: hidden;
         }
+
         .mb-3 {
             background-color: #9CA986;
             border-radius: 5px;
         }
         
-        /* Menjaga input tetap putih dan border bersih */
         .form-control {
             background-color: white;
             border: 1px solid #ccc;
         }
 
-        /* Mengubah teks label menjadi putih agar kontras */
         .form-label {
             color: #000000;
         }
-        .btn-secondary, .btn-primary {
-            background-color: #FFD54F;
-            color: #000000; /* Dark green text color for contrast */
+
+        .btn-secondary {
+            background-color: #E63946;
+            color: #ffffff; 
             border: none;
         }
 
-        /* Hover effect for buttons */
-        .btn-secondary:hover, .btn-primary:hover {
-            background-color: #DEF9C4; /* Light green hover effect */
-            color: #333; /* Darker text color on hover */
+        .btn-secondary:hover {
+            background-color: #C5283D; 
+            color: #ffffff; 
         }
     </style>
 </head>
@@ -94,19 +94,19 @@
               style="background-color: #9CA986; min-height: 450px; position: relative; padding-bottom: 100px;">
             @csrf
             <div class="mb-3">
-                <label for="nama_customer" class="form-label">Nama</label>
-                <input type="text" class="form-control" id="nama_customer" name="nama_customer" placeholder="Enter Customer Name" required>
+                <label for="nama_customer" class="form-label">Customer Name</label>
+                <input type="text" class="form-control" id="nama_customer" name="nama_customer" value="{{ old('nama_customer') }}"  placeholder="Enter Customer Name" required>
             </div>
             <div class="mb-3">
                 <label for="email_customer" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email_customer" name="email_customer" placeholder="Enter Email" required>
+                <input type="email" class="form-control" id="email_customer" name="email_customer" value="{{ old('email_customer') }}" placeholder="Enter Email" required>
                 @if ($errors->has('email_customer'))
                     <div class="text-danger">{{ $errors->first('email_customer') }}</div>
                 @endif
             </div>
             <div class="mb-3">
-                <label for="nohp_customer" class="form-label">No. HP</label>
-                <input type="text" class="form-control" id="nohp_customer" name="nohp_customer" placeholder="Enter Phone Number" required>
+                <label for="nohp_customer" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="nohp_customer" name="nohp_customer" value="{{ old('nohp_customer') }}" placeholder="Enter Phone Number" required>
                 @if ($errors->has('nohp_customer'))
                     <div class="text-danger">{{ $errors->first('nohp_customer') }}</div>
                 @endif
@@ -119,7 +119,7 @@
             <!-- Menambahkan div absolute untuk menempatkan tombol di bagian bawah -->
             <div class="d-flex justify-content-between" >
                 <a href="{{ route('customer.index') }}" class="btn btn-secondary">Cancel</a>
-                <button type="submit" class="btn btn-primary">Create Customer</button>
+                <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>
     </div>
