@@ -91,13 +91,13 @@
             <!-- Nama Pengguna -->
             <div class="mb-3">
                 <label for="nama_pengguna" class="form-label">Name</label>
-                <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" placeholder="Enter Name" required>
+                <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" value="{{ old('nama_pengguna') }}" placeholder="Enter Name" required>
             </div>
 
             <!-- Username -->
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
+                <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" placeholder="Enter Username" required>
                 @if ($errors->has('username'))
                     <div class="text-danger">{{ $errors->first('username') }}</div>
                 @endif
@@ -106,7 +106,7 @@
             <!-- Password -->
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required minlength="8">
+                <input type="password" class="form-control" id="password" name="password" value="{{ old('password') }}" placeholder="Enter Password" required minlength="8">
             </div>
 
             <!-- Upload Image -->
@@ -116,7 +116,7 @@
             </div>
 
             <!-- Role Selection as Dropdown -->
-            <div class="mb-3">
+            <div class="mb-3"> 
                 <label for="id_role" class="form-label">Role</label>
                 <select class="form-select" id="id_role" name="id_role" required>
                     <option selected disabled>Choose Role</option>

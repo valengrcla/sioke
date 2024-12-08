@@ -64,16 +64,16 @@
             margin-top: 0; 
         }
         .select2-container .select2-selection--single {
-        height: 2.5rem; /* Pastikan tinggi sama */
-        display: flex;
-        align-items: center;
-        border: 1px solid #ccc;
-        padding: 0.375rem 0.75rem;
-        background-color: white;
-    }
-    .select2-container .select2-selection__arrow {
-        margin-top: 0; /* Pastikan panah berada di tengah */
-    }   
+            height: 2.5rem; /* Pastikan tinggi sama */
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 0.375rem 0.75rem;
+            background-color: white;
+        }
+        .select2-container .select2-selection__arrow {
+            margin-top: 0; /* Pastikan panah berada di tengah */
+        }   
     </style>
 </head>
 <body>

@@ -23,7 +23,7 @@
         .form-label {
             color: #000000;
         }
-        .btn-secondary, .btn-primary {
+        .btn-secondary {
             background-color: #E63946;
             color: #ffffff; 
             border: none;
@@ -122,7 +122,7 @@
                 @endif
             </div>
 
-            <div class="d-flex justify-content-between" style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+            <div class="d-flex justify-content-between" >
                 <a href="{{ route('product.index') }}" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Edit Product</button>
             </div>

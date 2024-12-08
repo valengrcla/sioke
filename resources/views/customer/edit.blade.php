@@ -122,7 +122,7 @@
             </div>
        
             <!-- Menambahkan div absolute untuk menempatkan tombol di bagian bawah -->
-            <div class="d-flex justify-content-between" style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+            <div class="d-flex justify-content-between">
                 <a href="{{ route('customer.index') }}" class="btn btn-secondary">Cancel</a>
                 <button type="submit" class="btn btn-primary">Edit Customer</button>
             </div>

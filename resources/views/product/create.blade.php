@@ -86,21 +86,21 @@
             @csrf
             <div class="mb-3">
                 <label for="nama_product" class="form-label">Product Name</label>
-                <input type="text" class="form-control" id="nama_product" name="nama_product" placeholder="Enter Product Name" required>
+                <input type="text" class="form-control" id="nama_product" name="nama_product" value="{{ old('nama_product') }}" placeholder="Enter Product Name" required>
                 @if ($errors->has('nama_product'))
                     <div class="text-danger">{{ $errors->first('nama_product') }}</div>
                 @endif
             </div>
             <div class="mb-3">
                 <label for="harga_product" class="form-label">Price</label>
-                <input type="text" class="form-control" id="harga_product" name="harga_product" placeholder="Enter Product Price" required>
+                <input type="text" class="form-control" id="harga_product" name="harga_product" value="{{ old('harga_product') }}" placeholder="Enter Product Price" required>
                 @if ($errors->has('harga_product'))
                     <div class="text-danger">{{ $errors->first('harga_product') }}</div>
                 @endif
             </div>
             <div class="mb-3">
                 <label for="harga_poinproduct" class="form-label">Point Price</label>
-                <input type="text" class="form-control" id="harga_poinproduct" name="harga_poinproduct" placeholder="Enter Product Price in Points" required >
+                <input type="text" class="form-control" id="harga_poinproduct" name="harga_poinproduct" value="{{ old('harga_poinproduct') }}" placeholder="Enter Product Price in Points" required >
                 @if ($errors->has('harga_poinproduct'))
                     <div class="text-danger">{{ $errors->first('harga_poinproduct') }}</div>
                 @endif

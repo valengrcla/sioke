@@ -46,6 +46,27 @@
             margin-left: 5px;
             color: #FFD54F;
         }
+
+        .select2-container--default .select2-selection--single {
+            height: 2.5rem; /* Sama dengan sales/create */
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 0.375rem 0.75rem;
+            background-color: white;
+        }
+
+        .select2-container .select2-selection__arrow {
+            transform: translateY(15%); /* Koreksi pergeseran vertikal */
+            position: absolute;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #000 !important; /* Mengubah warna placeholder menjadi hitam */
+            opacity: 1; /* Pastikan opacity penuh untuk teks placeholder */
+        }
+        
+
     </style>
 </head>
 <body>
@@ -99,7 +120,7 @@
             @csrf
             <div class="mb-3">
                 <label for="id_customer" class="form-label">Choose Customer</label>
-                <select id="id_customer" name="id_customer" class="form-control customer" required onchange="updatePoinCustomer()">
+                <select id="id_customer" name="id_customer" class="form-control select2-customer" required onchange="updatePoinCustomer()">
                     <option value="" disabled selected>Choose Customer</option>
                     @foreach ($customer as $customer)
                     <option value="{{ $customer->id_customer }}" data-poin="{{ $customer->totalpoin_customer }}">
@@ -122,7 +143,7 @@
                 <div class="mb-3 d-flex align-items-center">
                     <div style="flex: 1;">
                         <label for="product[0][id_product]" class="form-label">Choose Product</label>
-                        <select name="product[0][id_product]" class="form-control product" required onchange="calculateTotalPoin()">
+                        <select name="product[0][id_product]" class="form-control select2-product" required onchange="calculateTotalPoin()">
                             <option value="" disabled selected>Choose Produk</option>
                             @foreach ($product as $product)
                                 <option value="{{ $product->id_product }}" data-price="{{ $product->harga_poinproduct }}">{{ $product->nama_product }} - {{ $product->harga_poinproduct }} Poin</option>
@@ -167,9 +188,38 @@
         </div>
     </div>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        $(document).ready(function() {
+            // Initialize Select2 for Choose Customer
+            $('.select2-customer').select2({
+                width: '100%', // Sama seperti sales/create
+                placeholder: "Select a Customer",
+                
+            });
+
+            // Initialize Select2 for Choose Product
+            $('.select2-product').select2({
+                width: '100%', // Sama seperti sales/create
+                placeholder: "Select a Product",
+                
+            });
+
+            // Style consistency for Select2
+            $('.select2-container .select2-selection--single').css({
+                height: '2.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                borderRadius: '0.375rem',
+                paddingLeft: '10px'
+            });
+        });
+
         let productIndex = 1;
 
         function updatePoinCustomer() {
@@ -218,9 +268,9 @@
  
             if (jumlahPoin < totalPoin) {
                 event.preventDefault();
-                document.getElementById('errorMessage').textContent = 'Jumlah Poin Tidak Mencukupi!';
+                document.getElementById('errorMessage').textContent = 'Insufficient points available!';
                 new bootstrap.Modal(document.getElementById('errorModal')).show();
-            }
+            } 
         });
 
     </script>
