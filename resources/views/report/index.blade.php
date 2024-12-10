@@ -150,7 +150,7 @@
         </form>        
 
         @if(isset($report) && count($report) > 0)
-            <table class="table table-striped">
+            <table class="table table-striped table-responsive">
                 <thead>
                     <tr>
                         <th>ID Nota</th>

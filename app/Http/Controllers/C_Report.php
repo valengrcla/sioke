@@ -40,6 +40,8 @@ class C_Report extends Controller
                 return $query->where(function ($q) use ($search) {
                     $q->where('sales.id_nota', 'like', "%{$search}%")
                         ->orWhere('customer.nama_customer', 'like', "%{$search}%")
+                        ->orWhere('sales.total_harga', 'like', "%{$search}%")
+                        ->orWhere('pengguna.nama_pengguna', 'like', "%{$search}%")
                         ->orWhere('product.nama_product', 'like', "%{$search}%");
                 });
             });

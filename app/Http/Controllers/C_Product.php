@@ -34,13 +34,17 @@ class C_Product extends Controller
     {
         $request->validate([
             'nama_product' => 'required|string|max:100|unique:product,nama_product',
-            'harga_product' => 'required|numeric',
-            'harga_poinproduct' => 'required|numeric',
+            'harga_product' => 'required|numeric|min:1000|not_regex:/\./',
+            'harga_poinproduct' => 'required|numeric|min:1|not_regex:/\./',
             'product_img' => 'nullable|image|mimes:jpeg,png,jpg|max:200',
         ], [
             'nama_product.unique' => 'Product name is already taken. Please choose another!',
             'harga_product.numeric' => 'Price must be a number!',
+            'harga_product.min' => 'The product price must not be less than Rp1.000!',
             'harga_poinproduct.numeric' => 'Price must be a number!',
+            'harga_poinproduct.min' => 'The point price must be at least 1!',
+            'harga_product.not_regex' => 'The price cannot contain a dot (.)!',
+            'harga_poinproduct.not_regex' => 'The point price cannot contain a dot (.)!',
         ]);
         $fotoPath = ''; // Default path jika tidak ada gambar di-upload
 
@@ -77,13 +81,15 @@ class C_Product extends Controller
 
         $request->validate([
             'nama_product' => 'required|string|max:100|unique:product,nama_product,' . $product->id_product . ',id_product',
-            'harga_product' => 'required|numeric',
-            'harga_poinproduct' => 'required|numeric',
+            'harga_product' => 'required|numeric|min:1000',
+            'harga_poinproduct' => 'required|numeric|min:1',
             'product_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'nama_product.unique' => 'Product name is already taken. Please choose another!',
             'harga_product.numeric' => 'Price must be a number!',
+            'harga_product.min' => 'The product price must not be less than Rp1.000!',
             'harga_poinproduct.numeric' => 'Price must be a number!',
+            'harga_poinproduct.min' => 'The point price must be at least 1!',
         ]);
         $product = Product::findOrFail($id_product);
 

@@ -17,23 +17,30 @@ class C_Sales extends Controller
 {
     public function index(Request $request)
     {
+        $currentMonth = date('m');
+        $currentYear = date('Y');
         $search = $request->input('search');
  
-        $sales = Sales::when($search, function ($query, $search) {
-            return $query->where('id_nota', 'like', '%' . $search . '%')
+        $sales = Sales::whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear) 
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('id_nota', 'like', '%' . $search . '%')
                         ->orWhereHas('customer', function ($query) use ($search) {
                             $query->where('nama_customer', 'like', '%' . $search . '%');
                         })
                         ->orWhereHas('pengguna', function ($query) use ($search) {
                             $query->where('nama_pengguna', 'like', '%' . $search . '%');
                         });
+                });
         })
         ->whereMonth('created_at', date('m')) 
         ->whereYear('created_at', date('Y')) 
         ->orderBy('created_at', 'desc')
-        ->paginate(9); 
+        ->paginate(9)
+        ->appends(['search' => $search]); 
  
-        return view("sales.index", compact('sales'));
+        return view("sales.index", compact('sales', 'search'));
     }
  
     public function detail_sales($id_nota)

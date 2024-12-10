@@ -110,7 +110,7 @@
         }
     </style>
 
-    <table class="table table-striped">
+    <table class="table table-striped table-responsive">
         <thead>
             <tr>
                 <th>ID Poin</th>

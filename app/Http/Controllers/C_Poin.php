@@ -12,7 +12,8 @@ class C_Poin extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search');  
+        $search = $request->input('search');
+        $month = $request->input('month');  
         
         $poin = Poin::when($search, function($query, $search) {
             return $query->where('id_poin', 'like', "%{$search}%")
@@ -21,10 +22,14 @@ class C_Poin extends Controller
                          })
                          ->orWhere('aktivitas', 'like', "%{$search}%");
         })
+        ->when($month, function($query, $month) {
+            return $query->whereMonth('created_at', $month); 
+        })
         ->orderBy('created_at', 'desc')
-        ->paginate(10); 
+        ->paginate(10)
+        ->appends(['search' => $search, 'month' => $month]); 
         
-        return view("poin.index", compact('poin'));
+        return view("poin.index", compact('poin', 'search', 'month'));
     }
 
     public function create()

@@ -4,7 +4,7 @@
         <ul class="navbar-nav ms-auto">
             <!-- User Profile Information -->
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <!-- Profile Picture -->
                     @if(session('user.user_img'))
                         <img src="{{ asset('images/pengguna/' . session('user.user_img')) }}" alt="User Image" class="rounded-circle" width="30" height="30" style="object-fit: cover; margin-right: 8px;">

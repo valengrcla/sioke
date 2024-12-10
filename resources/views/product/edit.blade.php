@@ -82,7 +82,7 @@
         
         <form action="{{ route('product.update', $product->id_product) }}" method="POST" enctype="multipart/form-data" 
               class="border p-4 rounded" 
-              style="background-color: #9CA986; min-height: 550px; position: relative; padding-bottom: 150px;">
+              style="background-color: #9CA986; min-height: 400px; position: relative; padding-bottom: 20px;">
             @csrf
             @method('PUT')
 

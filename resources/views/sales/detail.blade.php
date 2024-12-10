@@ -157,7 +157,7 @@
                         <td>{{ number_format($sales->total_pembayaran, 2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <th>Payment</th>
+                        <th>Change</th>
                         <td>{{ number_format($sales->total_kembali, 2, ',', '.') }}</td>
                     </tr>
                 </table>

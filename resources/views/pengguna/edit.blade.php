@@ -87,7 +87,7 @@
         
         <form action="{{ route('pengguna.update', $pengguna->id_pengguna) }}" method="POST" enctype="multipart/form-data"
             class="border p-4 rounded" 
-            style="background-color: #9CA986; min-height: 550px; position: relative; padding-bottom: 150px;">
+            style="background-color: #9CA986; min-height: 400px; position: relative; padding-bottom: 20px;">
             @csrf
             @method('PUT')
         
@@ -107,11 +107,11 @@
             </div>
         
             <!-- Password -->
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" minlength="8">
                 <small class="form-text text-muted">Leave empty if you don't want to change the password</small>
-            </div>
+            </div> --}}
         
             <!-- Upload Image -->
             <div class="mb-3">

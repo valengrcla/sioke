@@ -14,14 +14,15 @@ class C_Pengguna extends Controller
     {
         $search = $request->input('search');
 
-        if ($search) {
-            $pengguna = Pengguna::where('nama_pengguna', 'like', '%' . $search . '%')
-                                ->orWhere('username', 'like', '%' . $search . '%')
-                                ->orderBy('created_at', 'desc')
-                                ->get();
-        } else {
-            $pengguna = Pengguna::orderBy('created_at', 'desc')->get(); 
-        }
+        $pengguna = Pengguna::join('role', 'pengguna.id_role', '=', 'role.id_role') // Join tabel role
+                        ->select('pengguna.*', 'role.nama_role') // Pilih kolom tambahan dari role
+                        ->when($search, function ($query) use ($search) {
+                            $query->where('pengguna.nama_pengguna', 'like', '%' . $search . '%') // Pencarian berdasarkan nama_pengguna
+                                  ->orWhere('pengguna.username', 'like', '%' . $search . '%')     // Pencarian berdasarkan username
+                                  ->orWhere('role.nama_role', 'like', '%' . $search . '%');      // Pencarian berdasarkan nama_role
+                        })
+                        ->orderBy('pengguna.created_at', 'desc')
+                        ->get();
 
         return view("pengguna.index", compact('pengguna'));
     }
@@ -55,7 +56,7 @@ class C_Pengguna extends Controller
             $fotoPath = $imageName;
         }
 
-        // Buat data pengguna baru
+        // Buat data pengguna baru 
         Pengguna::create([
             'id_pengguna' => Str::uuid(), // Menggunakan UUID sebagai id_pengguna
             'nama_pengguna' => $request->input('nama_pengguna'),
@@ -81,7 +82,7 @@ class C_Pengguna extends Controller
         $request->validate([
             'nama_pengguna' => 'required|string|max:100',
             'username' => 'required|string|unique:pengguna,username,'. $id_pengguna . ',id_pengguna', // Pastikan username unik
-            'password' => 'nullable|string|min:8', // Panjang minimal password
+            // 'password' => 'nullable|string|min:8', // Panjang minimal password
             'id_role' => 'required|exists:role,id_role', // Pastikan role ada di database
             'user_img' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
@@ -95,9 +96,9 @@ class C_Pengguna extends Controller
         $pengguna->id_role = $request->input('id_role');
 
         // Check if password field is filled
-        if ($request->filled('password')) {
-            $pengguna->password = Hash::make($request->input('password'));
-        }
+        // if ($request->filled('password')) {
+        //     $pengguna->password = Hash::make($request->input('password'));
+        // }
 
         $fotoPath = $pengguna->user_img; // Default path jika tidak ada gambar di-upload
 
@@ -113,7 +114,7 @@ class C_Pengguna extends Controller
             // 'id_pengguna' => Str::uuid(), // Menggunakan UUID sebagai id_pengguna
             'nama_pengguna' => $request->input('nama_pengguna'),
             'username' => $request->input('username'),
-            'password' => Hash::make($request->input('password')), // Hash password untuk keamanan
+            // 'password' => Hash::make($request->input('password')), // Hash password untuk keamanan
             'user_img' => $fotoPath,
             'id_role' => $request->input('id_role'), // Role yang dipilih
         ]);
